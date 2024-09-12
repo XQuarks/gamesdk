@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d2daa4d_022a2ac5",
+        "filename": "game-text-input/prefab-src/modules/game-text-input/include/game-text-input/gametextinput.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T13:15:04Z",
+      "side": 1,
+      "message": "I\u0027ll have tons of conflicts if this gets committed. Please don\u0027t change files for now.",
+      "revId": "c3dec3e7de1970e44e9ab3e7914f6ca1f292eab6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
