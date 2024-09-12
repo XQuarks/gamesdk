@@ -33,10 +33,10 @@ extern "C" {
  * the memory once finished with the buffer.
  */
 typedef struct MemoryAdvice_JsonSerialization {
-    char *json;     ///< String for the json object.
-    uint32_t size;  ///< Size of the json string.
-    ///< Deallocation callback (may be NULL if not owned).
-    void (*dealloc)(struct MemoryAdvice_JsonSerialization *);
+  char *json;     ///< String for the json object.
+  uint32_t size;  ///< Size of the json string.
+  ///< Deallocation callback (may be NULL if not owned).
+  void (*dealloc)(struct MemoryAdvice_JsonSerialization *);
 } MemoryAdvice_JsonSerialization;
 
 /**

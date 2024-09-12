@@ -25,83 +25,80 @@
 #define LEVELS_PER_CHECKPOINT 4
 
 class DataLoaderStateMachine {
-private:
+ private:
+  enum DataLoadStates {
+    // loading has not been initialized
+    LOAD_NOT_STARTED,
+    // a new loading work has been initialized and is in progress
+    DATA_INITIALIZED,
+    // the user has been authenticated to Google Play Games Services
+    CLOUD_USER_AUTHENTICATED,
+    // the saved data has been found
+    CLOUD_DATA_FOUND,
+    // the loading data work has finished
+    DATA_LOADED
+  };
 
-    enum DataLoadStates {
-        // loading has not been initialized
-        LOAD_NOT_STARTED,
-        // a new loading work has been initialized and is in progress
-        DATA_INITIALIZED,
-        // the user has been authenticated to Google Play Games Services
-        CLOUD_USER_AUTHENTICATED,
-        // the saved data has been found
-        CLOUD_DATA_FOUND,
-        // the loading data work has finished
-        DATA_LOADED
-    };
+  // pointer to the current status, initialized in LOAD_NOT_STARTED
+  DataLoadStates mCurrentState;
 
-    // pointer to the current status, initialized in LOAD_NOT_STARTED
-    DataLoadStates mCurrentState;
+  // level to start from in play scene
+  int mLevelLoaded;
 
-    // level to start from in play scene
-    int mLevelLoaded;
+  // name of the save file
+  char *mSaveFileName;
 
-    // name of the save file
-    char *mSaveFileName;
+  // flag to know if cloud save is enabled
+  bool mIsCloudSaveEnabled;
 
-    // flag to know if cloud save is enabled
-    bool mIsCloudSaveEnabled;
+ public:
+  DataLoaderStateMachine(bool isCloudSaveEnabled, char *savePath);
 
-public:
+  ~DataLoaderStateMachine();
 
-    DataLoaderStateMachine(bool isCloudSaveEnabled, char *savePath);
+  // starts loading work by moving LOAD_NOT_STARTED or DATA_LOADED to
+  // DATA_INITIALIZED
+  void init();
 
-    ~DataLoaderStateMachine();
+  // moves state DATA_INITIALIZED to CLOUD_USER_AUTHENTICATED
+  void authenticationCompleted();
 
-    // starts loading work by moving LOAD_NOT_STARTED or DATA_LOADED to
-    // DATA_INITIALIZED
-    void init();
+  // moves state CLOUD_USER_AUTHENTICATED to CLOUD_DATA_FOUND
+  void savedStateCloudDataFound();
 
-    // moves state DATA_INITIALIZED to CLOUD_USER_AUTHENTICATED
-    void authenticationCompleted();
+  // finishes loading work by setting the level found on cloud and
+  // moves state CLOUD_DATA_FOUND to DATA_LOADED
+  void savedStateLoadingCompleted(int level);
 
-    // moves state CLOUD_USER_AUTHENTICATED to CLOUD_DATA_FOUND
-    void savedStateCloudDataFound();
+  // finishes loading work when the user can't be authenticated, instead
+  // loads local data and moves state DATA_INITIALIZED to DATA_LOADED
+  void authenticationFailed();
 
-    // finishes loading work by setting the level found on cloud and
-    // moves state CLOUD_DATA_FOUND to DATA_LOADED
-    void savedStateLoadingCompleted(int level);
+  // finishes loading work when cloud data can't be found, instead loads
+  // local data and moves state CLOUD_USER_AUTHENTICATED to DATA_LOADED
+  void savedStateSnapshotNotFound();
 
-    // finishes loading work when the user can't be authenticated, instead
-    // loads local data and moves state DATA_INITIALIZED to DATA_LOADED
-    void authenticationFailed();
+  // finishes loading work when an error loading data occurs, instead
+  // loads local data and moves DATA_LOADED to DATA_LOADED
+  void savedStateLoadingFailed();
 
-    // finishes loading work when cloud data can't be found, instead loads
-    // local data and moves state CLOUD_USER_AUTHENTICATED to DATA_LOADED
-    void savedStateSnapshotNotFound();
+  // retrieve the level loaded after a loading operation
+  int getLevelLoaded();
 
-    // finishes loading work when an error loading data occurs, instead
-    // loads local data and moves DATA_LOADED to DATA_LOADED
-    void savedStateLoadingFailed();
+  // query for the total steps to get done to finish with the load operation
+  int getTotalSteps();
 
-    // retrieve the level loaded after a loading operation
-    int getLevelLoaded();
+  // query for the steps completed of the current load operation
+  int getStepsCompleted();
 
-    // query for the total steps to get done to finish with the load operation
-    int getTotalSteps();
+  // asks if a loading operation is in progress
+  bool isLoadingDataCompleted();
 
-    // query for the steps completed of the current load operation
-    int getStepsCompleted();
+  // load progress saved in internal storage and moves state to DATA_LOADED
+  void LoadLocalProgress();
 
-    // asks if a loading operation is in progress
-    bool isLoadingDataCompleted();
-
-    // load progress saved in internal storage and moves state to DATA_LOADED
-    void LoadLocalProgress();
-
-    // save progress to internal storage
-    void SaveLocalProgress(int level);
-
+  // save progress to internal storage
+  void SaveLocalProgress(int level);
 };
 
-#endif //agdktunnel_data_loader_machine_hpp
+#endif  // agdktunnel_data_loader_machine_hpp

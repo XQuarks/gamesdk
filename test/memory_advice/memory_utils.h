@@ -16,9 +16,9 @@
 
 #pragma once
 
-#include <string>
 #include <list>
 #include <mutex>
+#include <string>
 
 namespace memory_advice_test {
 
@@ -50,4 +50,3 @@ void AllocateMemory(uint64_t nbytes);
 // Deallocates all memory that has currently been allocated
 void DeallocateAllMemory();
 }  // namespace memory_advice_test
-
