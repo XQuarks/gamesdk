@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb3ecbb4_e5979478",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T15:00:18Z",
+      "side": 1,
+      "message": "What if cursor is at position 0?",
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb26082a_b53a6c66",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T15:00:18Z",
+      "side": 1,
+      "message": "What if cursor is at the end of the string?",
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
