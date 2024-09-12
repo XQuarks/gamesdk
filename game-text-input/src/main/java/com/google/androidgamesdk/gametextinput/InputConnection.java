@@ -521,6 +521,18 @@ public class InputConnection
         this.stateUpdated(false);
         Log.d(TAG, String.format("processKeyEvent: exit after FORWARD_DEL, text=%s", this.mEditable.toString()));
         return true;
+      } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
+          if (selection.first == selection.second) {
+              GameTextInput.setSelection(this.mEditable, selection.first - 1, selection.second - 1);
+          } else {
+              GameTextInput.setSelection(this.mEditable, selection.first, selection.first);
+          }
+      } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT) {
+          if (selection.first == selection.second) {
+              GameTextInput.setSelection(this.mEditable, selection.first + 1, selection.second + 1);
+          } else {
+              GameTextInput.setSelection(this.mEditable, selection.second, selection.second);
+          }
       }
 
       int code = event.getKeyCode();
