@@ -1,7 +1,7 @@
 #pragma once
 
-#include <google/protobuf/message.h>
 #include <google/protobuf/descriptor.h>
+#include <google/protobuf/message.h>
 
 // Utility functions for dealing with protos loaded from file rather than
 //   compiled with protoc
@@ -15,7 +15,8 @@ void init(const std::vector<std::string>& include_dirs);
 
 // Return the file descriptor for file_name and all its imports. That for
 // file_name is last in the vector.
-std::vector<const FileDescriptor*> fileDescriptors(const std::string& file_name);
+std::vector<const FileDescriptor*> fileDescriptors(
+    const std::string& file_name);
 
 // Find extensions of fully_qualified_name in desc and add them to exts
 void extensionsOf(const FileDescriptor* desc,
@@ -30,6 +31,7 @@ void print(const EnumDescriptor* e, std::ostream& o);
 
 // Create a new message defined in desc or one of its imports. message_type
 //   is *not* qualified.
-Message* newMessage(const FileDescriptor* desc, const std::string& message_type);
+Message* newMessage(const FileDescriptor* desc,
+                    const std::string& message_type);
 
-} // namespace dynamicproto
+}  // namespace dynamicproto
