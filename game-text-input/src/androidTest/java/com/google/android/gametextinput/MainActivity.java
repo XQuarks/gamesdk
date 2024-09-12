@@ -15,46 +15,43 @@
  */
 package com.google.androidgamesdk.gametextinput.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.androidgamesdk.gametextinput.test.R;
 
 // import com.google.androidgamesdk.gametextinput.InputConnection;
 
 public class MainActivity extends AppCompatActivity {
-    InputEnabledTextView inputEnabledTextView;
-    TextView displayedText;
+  InputEnabledTextView inputEnabledTextView;
+  TextView displayedText;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        inputEnabledTextView =
-                (InputEnabledTextView) findViewById(R.id.input_enabled_text_view);
-        assert(inputEnabledTextView != null);
+    inputEnabledTextView = (InputEnabledTextView) findViewById(R.id.input_enabled_text_view);
+    assert (inputEnabledTextView != null);
 
-        displayedText = (TextView) findViewById(R.id.displayed_text);
-        assert(displayedText != null);
+    displayedText = (TextView) findViewById(R.id.displayed_text);
+    assert (displayedText != null);
 
-        inputEnabledTextView.createInputConnection(InputType.TYPE_CLASS_TEXT, this);
-    }
+    inputEnabledTextView.createInputConnection(InputType.TYPE_CLASS_TEXT, this);
+  }
 
-    public void setDisplayedText(String text) {
-        displayedText.setText(text);
-    }
+  public void setDisplayedText(String text) {
+    displayedText.setText(text);
+  }
 
-    public String getTestString() {
-      return "abc";
-    }
+  public String getTestString() {
+    return "abc";
+  }
 
-    public void enableSoftKeyboard() {
-      inputEnabledTextView.enableSoftKeyboard();
-    }
+  public void enableSoftKeyboard() {
+    inputEnabledTextView.enableSoftKeyboard();
+  }
 }
