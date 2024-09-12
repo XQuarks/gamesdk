@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91f0f331_8491416f",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T13:27:30Z",
+      "side": 1,
+      "message": "This can cause problems if stateChanged() is a long-running function. If it also uses any synchronization primitive inside, this can cause deadlock.",
+      "revId": "902cde63267839e0019fb8a6c6176ebede2d859c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e39928f_09544afd",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T13:27:30Z",
+      "side": 1,
+      "message": "Same comment as above: if this calls native callbacks with complex synchronization inside, it might result in a deadlock.",
+      "revId": "902cde63267839e0019fb8a6c6176ebede2d859c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
