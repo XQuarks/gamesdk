@@ -16,6 +16,24 @@
       "message": "I\u0027ll have tons of conflicts if this gets committed. Please don\u0027t change files for now.",
       "revId": "c3dec3e7de1970e44e9ab3e7914f6ca1f292eab6",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adbbfa41_43b568fd",
+        "filename": "game-text-input/prefab-src/modules/game-text-input/include/game-text-input/gametextinput.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-12T14:45:40Z",
+      "side": 1,
+      "message": "Is it still actual?",
+      "parentUuid": "1d2daa4d_022a2ac5",
+      "revId": "c3dec3e7de1970e44e9ab3e7914f6ca1f292eab6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
