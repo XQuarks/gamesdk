@@ -38,12 +38,14 @@ static void onEvent(void *context, const GameTextInputState *state) {
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_gametextinput_testbed_MainActivity_onCreated(JNIEnv *env, jobject thiz) {
+Java_com_gametextinput_testbed_MainActivity_onCreated(JNIEnv *env,
+                                                      jobject thiz) {
   ALOGD("Calling GameTextInput_init...");
   gameTextInput = GameTextInput_init(env, 0);
   activity = env->NewGlobalRef(thiz);
   ALOGD("activity is %p...", thiz);
-  jclass activityClass = env->FindClass("com/gametextinput/testbed/MainActivity");
+  jclass activityClass =
+      env->FindClass("com/gametextinput/testbed/MainActivity");
 
   setDisplayedText = env->GetMethodID(activityClass, "setDisplayedText",
                                       "(Ljava/lang/String;)V");
@@ -78,26 +80,36 @@ Java_com_gametextinput_testbed_MainActivity_hideIme(JNIEnv *env, jobject thiz) {
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_gametextinput_testbed_MainActivity_restartInput(JNIEnv *env, jobject thiz) {
+Java_com_gametextinput_testbed_MainActivity_restartInput(JNIEnv *env,
+                                                         jobject thiz) {
   GameTextInput_restartInput(gameTextInput);
 }
 
 extern "C" JNIEXPORT void JNICALL
 Java_com_gametextinput_testbed_MainActivity_sendSelectionToStart(JNIEnv *env,
-                                                             jobject thiz) {
-  GameTextInput_getState(gameTextInput, [](void* context, const GameTextInputState* state) {
-    GameTextInputState state_copy = *state;
-    state_copy.selection = {0, 0};
-    GameTextInput_setState(static_cast<GameTextInput*>(context), &state_copy);
-    }, (void*)gameTextInput);
+                                                                 jobject thiz) {
+  GameTextInput_getState(
+      gameTextInput,
+      [](void *context, const GameTextInputState *state) {
+        GameTextInputState state_copy = *state;
+        state_copy.selection = {0, 0};
+        GameTextInput_setState(static_cast<GameTextInput *>(context),
+                               &state_copy);
+      },
+      (void *)gameTextInput);
 }
 
 extern "C" JNIEXPORT void JNICALL
 Java_com_gametextinput_testbed_MainActivity_sendSelectionToEnd(JNIEnv *env,
-                                                           jobject thiz) {
-  GameTextInput_getState(gameTextInput, [](void* context, const GameTextInputState* state) {
-    GameTextInputState state_copy = *state;
-    state_copy.selection = {(int)state->text_length, (int)state->text_length};
-    GameTextInput_setState(static_cast<GameTextInput*>(context), &state_copy);
-  }, (void*)gameTextInput);
+                                                               jobject thiz) {
+  GameTextInput_getState(
+      gameTextInput,
+      [](void *context, const GameTextInputState *state) {
+        GameTextInputState state_copy = *state;
+        state_copy.selection = {(int)state->text_length,
+                                (int)state->text_length};
+        GameTextInput_setState(static_cast<GameTextInput *>(context),
+                               &state_copy);
+      },
+      (void *)gameTextInput);
 }

@@ -37,7 +37,7 @@ int validateApk(const char *apk_path, const std::string asset_path,
                             check_dev_fidelityparams);
 }
 
-} // anonymous namespace
+}  // anonymous namespace
 
 int main(int argc, char **argv) {
   std::string asset_path = "assets/tuningfork/";
@@ -48,11 +48,11 @@ int main(int argc, char **argv) {
       "Usage: tfvalidate [-a <asset_path_in_apk>] [-N] [-F] [-d] <apk_path>";
   int opt;
   optind = 1;
-  while ((opt=getopt(argc, argv, "+a:NFd")) != -1){
-    switch(opt) {
+  while ((opt = getopt(argc, argv, "+a:NFd")) != -1) {
+    switch (opt) {
       case 'a':
         asset_path = optarg;
-        if ( asset_path.size() > 0 && asset_path.back() != '/' )
+        if (asset_path.size() > 0 && asset_path.back() != '/')
           asset_path += '/';
         break;
       case 'N':
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     }
   }
   if (optind < argc) {
-    for (int i=optind; i<argc; ++i) {
+    for (int i = optind; i < argc; ++i) {
       int ret = validateApk(argv[i], asset_path, enforce_enums_in_annotations,
                             check_dev_fidelityparams, debug);
       if (ret != NO_ERROR) {
@@ -78,8 +78,7 @@ int main(int argc, char **argv) {
         std::cout << "Validated " << argv[i] << std::endl;
       }
     }
-  }
-  else
+  } else
     ERROR(ERROR_BAD_USAGE, usage_string);
 
   return NO_ERROR;

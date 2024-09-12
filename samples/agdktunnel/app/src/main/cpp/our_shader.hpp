@@ -22,36 +22,37 @@
 // An OpenGL shader that can apply a texture and a point light.
 // We use to to render the tunnel and the obstacles.
 class OurShader : public Shader {
-protected:
-    GLint mColorLoc;
-    GLint mTexCoordLoc;
-    int mTintLoc;
-    int mSamplerLoc;
-    int mPointLightPosLoc;
-    int mPointLightColorLoc;
-public:
-    OurShader();
+ protected:
+  GLint mColorLoc;
+  GLint mTexCoordLoc;
+  int mTintLoc;
+  int mSamplerLoc;
+  int mPointLightPosLoc;
+  int mPointLightColorLoc;
 
-    virtual ~OurShader();
+ public:
+  OurShader();
 
-    virtual void Compile();
+  virtual ~OurShader();
 
-    void SetTexture(Texture *t);
+  virtual void Compile();
 
-    void SetTintColor(float r, float g, float b);
+  void SetTexture(Texture *t);
 
-    void EnablePointLight(glm::vec3 pos, float r, float g, float b);
+  void SetTintColor(float r, float g, float b);
 
-    void DisablePointLight();
+  void EnablePointLight(glm::vec3 pos, float r, float g, float b);
 
-    virtual void BeginRender(VertexBuf *geom);
+  void DisablePointLight();
 
-protected:
-    virtual const char *GetVertShaderSource();
+  virtual void BeginRender(VertexBuf *geom);
 
-    virtual const char *GetFragShaderSource();
+ protected:
+  virtual const char *GetVertShaderSource();
 
-    virtual const char *GetShaderName();
+  virtual const char *GetFragShaderSource();
+
+  virtual const char *GetShaderName();
 };
 
 #endif

@@ -18,11 +18,11 @@ public class MainActivity extends Activity {
     // Delay between polls.
     int delay = 250;
 
-    MemoryWatcher memoryWatcher = new MemoryWatcher(memoryAdvisor,  delay,
-        new MemoryWatcher.DefaultClient() {
-      @Override
-      public void newState(MemoryAdvisor.MemoryState state) {}
-    });
+    MemoryWatcher memoryWatcher =
+        new MemoryWatcher(memoryAdvisor, delay, new MemoryWatcher.DefaultClient() {
+          @Override
+          public void newState(MemoryAdvisor.MemoryState state) {}
+        });
 
     Map<String, Object> deviceInfo = memoryAdvisor.getDeviceInfo();
 
