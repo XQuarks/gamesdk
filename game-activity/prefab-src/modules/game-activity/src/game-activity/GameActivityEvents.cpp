@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#include "GameActivityEvents.h"
+#include <game-activity/GameActivityEvents.h>
 #include "GameActivityEvents_internal.h"
 
 #include <sys/system_properties.h>
 
 #include <string>
 
-#include "GameActivityLog.h"
+#include <game-activity/GameActivityLog.h>
 #include "system_utils.h"
 
 static bool enabledAxes[GAME_ACTIVITY_POINTER_INFO_AXIS_COUNT] = {
