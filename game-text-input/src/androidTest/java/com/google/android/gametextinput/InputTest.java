@@ -323,4 +323,30 @@ public class InputTest {
 
     onView(withId(R.id.displayed_text)).check(matches(withText("mxyzef")));
   }
+
+  @Test
+  public void pressingLeftMovesCursorLeft() {
+    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
+
+    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
+
+    onView(withId(R.id.input_enabled_text_view))
+        .perform(typeText("abcdefgh"), selectText(6, 6), pressKey(KeyEvent.KEYCODE_DPAD_LEFT),
+            pressKey(KeyEvent.KEYCODE_X));
+
+    onView(withId(R.id.displayed_text)).check(matches(withText("abcdexfgh")));
+  }
+
+  @Test
+  public void pressingRightMovesCursorRight() {
+    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
+
+    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
+
+    onView(withId(R.id.input_enabled_text_view))
+        .perform(typeText("abcdefgh"), selectText(6, 6), pressKey(KeyEvent.KEYCODE_DPAD_RIGHT),
+            pressKey(KeyEvent.KEYCODE_X));
+
+    onView(withId(R.id.displayed_text)).check(matches(withText("abcdefgxh")));
+  }
 }

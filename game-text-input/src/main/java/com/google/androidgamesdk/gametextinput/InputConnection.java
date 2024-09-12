@@ -446,7 +446,21 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
 
     boolean modified = false;
 
-    if (selection.first != selection.second) {
+    if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
+      if (selection.first == selection.second) {
+        setSelection(selection.first - 1, selection.second - 1);
+      } else {
+        setSelection(selection.first, selection.first);
+      }
+      return true;
+    } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT) {
+      if (selection.first == selection.second) {
+        setSelection(selection.first + 1, selection.second + 1);
+      } else {
+        setSelection(selection.second, selection.second);
+      }
+      return true;
+    } else if (selection.first != selection.second) {
       Log.d(TAG, String.format("processKeyEvent: deleting selection"));
       this.mEditable.delete(selection.first, selection.second);
       modified = true;
