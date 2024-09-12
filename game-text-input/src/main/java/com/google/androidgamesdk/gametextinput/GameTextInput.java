@@ -23,9 +23,6 @@ import android.view.inputmethod.EditorInfo;
  * Singleton GameTextInput class with helper methods.
  */
 public final class GameTextInput {
-  private static final GameTextInput composingRegionKey;
-  private static final Class selectionKey;
-
   public final static void copyEditorInfo(EditorInfo from, EditorInfo to) {
     if (from == null || to == null)
       return;
@@ -46,6 +43,9 @@ public final class GameTextInput {
     if (from.fieldName != null) {
       to.fieldName = from.fieldName;
     }
+
+    to.initialSelStart = from.initialSelStart;
+    to.initialSelEnd = from.initialSelEnd;
   }
 
   public static final class Pair {
@@ -57,57 +57,5 @@ public final class GameTextInput {
     }
   }
 
-  public final static Pair getSelection(Editable editable) {
-    return new Pair(editable.getSpanStart(selectionKey), editable.getSpanEnd(selectionKey));
-  }
-
-  public final static Pair getComposingRegion(Editable editable) {
-    return new Pair(
-        editable.getSpanStart(composingRegionKey), editable.getSpanEnd(composingRegionKey));
-  }
-
-  public final static void setSelection(Editable editable, int start, int end) {
-    if (start > editable.length())
-      start = editable.length();
-    if (end > editable.length())
-      end = editable.length();
-
-    // Note that selections can be in the opposite order
-    if (start > end)
-      editable.setSpan(selectionKey, end, start, 0);
-    else
-      editable.setSpan(selectionKey, start, end, 0);
-  }
-
-  public final static void setComposingRegion(Editable editable, int start, int end) {
-    if (start > editable.length())
-      start = editable.length();
-    if (end > editable.length())
-      end = editable.length();
-
-    // Note that selections can be in the opposite order
-    if (start > end)
-      editable.setSpan(composingRegionKey, end, start, Spanned.SPAN_COMPOSING);
-    else
-      editable.setSpan(composingRegionKey, start, end, Spanned.SPAN_COMPOSING);
-  }
-
-  public final static void removeComposingRegion(Editable editable) {
-    editable.removeSpan(composingRegionKey);
-  }
-
-  public final static GameTextInput getComposingRegionKey() {
-    return composingRegionKey;
-  }
-
-  public final static Class getSelectionKey() {
-    return selectionKey;
-  }
-
   private GameTextInput() {}
-
-  static {
-    composingRegionKey = new GameTextInput();
-    selectionKey = composingRegionKey.getClass();
-  }
 }
