@@ -72,6 +72,11 @@ public final class GameTextInput {
     if (end > editable.length())
       end = editable.length();
 
+    if (start < 0)
+        start = 0;
+    if (end < 0)
+        end = 0;
+
     // Note that selections can be in the opposite order
     if (start > end)
       editable.setSpan(selectionKey, end, start, 0);
