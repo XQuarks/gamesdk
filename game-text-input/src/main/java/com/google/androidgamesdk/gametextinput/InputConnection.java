@@ -22,8 +22,8 @@ import android.os.Build.VERSION_CODES;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,34 +40,69 @@ import com.google.androidgamesdk.gametextinput.GameTextInput.Pair;
 import java.util.BitSet;
 
 @Keep
-public class InputConnection
-    extends BaseInputConnection
-    implements View.OnKeyListener {
+public class InputConnection extends BaseInputConnection implements View.OnKeyListener {
   private static final String TAG = "gti.InputConnection";
   // TODO: (b/183179971) We should react to most of these events rather than ignoring them? Plus
   // there are others that should be ignored.
   private static final int[] notInsertedKeyCodes = {
       // Start of common game controller button keycodes
-      KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_UP,
-      KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_DPAD_DOWN_LEFT,
-      KeyEvent.KEYCODE_DPAD_UP_LEFT, KeyEvent.KEYCODE_DPAD_UP_LEFT, KeyEvent.KEYCODE_DPAD_UP_RIGHT,
-      KeyEvent.KEYCODE_BUTTON_A, KeyEvent.KEYCODE_BUTTON_B, KeyEvent.KEYCODE_BUTTON_X,
-      KeyEvent.KEYCODE_BUTTON_Y, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_L2,
-      KeyEvent.KEYCODE_BUTTON_R1, KeyEvent.KEYCODE_BUTTON_R2, KeyEvent.KEYCODE_BUTTON_THUMBL,
-      KeyEvent.KEYCODE_BUTTON_THUMBR, KeyEvent.KEYCODE_BUTTON_SELECT, KeyEvent.KEYCODE_BUTTON_START,
-      KeyEvent.KEYCODE_BUTTON_MODE, KeyEvent.KEYCODE_MEDIA_RECORD, KeyEvent.KEYCODE_BUTTON_Z,
+      KeyEvent.KEYCODE_DPAD_CENTER,
+      KeyEvent.KEYCODE_DPAD_DOWN,
+      KeyEvent.KEYCODE_DPAD_UP,
+      KeyEvent.KEYCODE_DPAD_LEFT,
+      KeyEvent.KEYCODE_DPAD_RIGHT,
+      KeyEvent.KEYCODE_DPAD_DOWN_LEFT,
+      KeyEvent.KEYCODE_DPAD_UP_LEFT,
+      KeyEvent.KEYCODE_DPAD_UP_LEFT,
+      KeyEvent.KEYCODE_DPAD_UP_RIGHT,
+      KeyEvent.KEYCODE_BUTTON_A,
+      KeyEvent.KEYCODE_BUTTON_B,
+      KeyEvent.KEYCODE_BUTTON_X,
+      KeyEvent.KEYCODE_BUTTON_Y,
+      KeyEvent.KEYCODE_BUTTON_L1,
+      KeyEvent.KEYCODE_BUTTON_L2,
+      KeyEvent.KEYCODE_BUTTON_R1,
+      KeyEvent.KEYCODE_BUTTON_R2,
+      KeyEvent.KEYCODE_BUTTON_THUMBL,
+      KeyEvent.KEYCODE_BUTTON_THUMBR,
+      KeyEvent.KEYCODE_BUTTON_SELECT,
+      KeyEvent.KEYCODE_BUTTON_START,
+      KeyEvent.KEYCODE_BUTTON_MODE,
+      KeyEvent.KEYCODE_MEDIA_RECORD,
+      KeyEvent.KEYCODE_BUTTON_Z,
       KeyEvent.KEYCODE_BUTTON_C,
 
       // End of common game controller button keycodes
-      KeyEvent.KEYCODE_DEL, KeyEvent.KEYCODE_FORWARD_DEL, KeyEvent.KEYCODE_CTRL_RIGHT,
-      KeyEvent.KEYCODE_SHIFT_LEFT, KeyEvent.KEYCODE_SHIFT_RIGHT, KeyEvent.KEYCODE_BACK,
-      KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN, KeyEvent.KEYCODE_VOLUME_MUTE,
-      KeyEvent.KEYCODE_ALT_LEFT, KeyEvent.KEYCODE_ALT_RIGHT, KeyEvent.KEYCODE_CTRL_LEFT,
-      KeyEvent.KEYCODE_F1, KeyEvent.KEYCODE_F10, KeyEvent.KEYCODE_F11, KeyEvent.KEYCODE_F12,
-      KeyEvent.KEYCODE_F2, KeyEvent.KEYCODE_F3, KeyEvent.KEYCODE_F4, KeyEvent.KEYCODE_F5,
-      KeyEvent.KEYCODE_F6, KeyEvent.KEYCODE_F7, KeyEvent.KEYCODE_F8, KeyEvent.KEYCODE_F9,
-      KeyEvent.KEYCODE_INSERT, KeyEvent.KEYCODE_MOVE_HOME, KeyEvent.KEYCODE_MOVE_END,
-      KeyEvent.KEYCODE_PAGE_UP, KeyEvent.KEYCODE_PAGE_DOWN, KeyEvent.KEYCODE_UNKNOWN,
+      KeyEvent.KEYCODE_DEL,
+      KeyEvent.KEYCODE_FORWARD_DEL,
+      KeyEvent.KEYCODE_CTRL_RIGHT,
+      KeyEvent.KEYCODE_SHIFT_LEFT,
+      KeyEvent.KEYCODE_SHIFT_RIGHT,
+      KeyEvent.KEYCODE_BACK,
+      KeyEvent.KEYCODE_VOLUME_UP,
+      KeyEvent.KEYCODE_VOLUME_DOWN,
+      KeyEvent.KEYCODE_VOLUME_MUTE,
+      KeyEvent.KEYCODE_ALT_LEFT,
+      KeyEvent.KEYCODE_ALT_RIGHT,
+      KeyEvent.KEYCODE_CTRL_LEFT,
+      KeyEvent.KEYCODE_F1,
+      KeyEvent.KEYCODE_F10,
+      KeyEvent.KEYCODE_F11,
+      KeyEvent.KEYCODE_F12,
+      KeyEvent.KEYCODE_F2,
+      KeyEvent.KEYCODE_F3,
+      KeyEvent.KEYCODE_F4,
+      KeyEvent.KEYCODE_F5,
+      KeyEvent.KEYCODE_F6,
+      KeyEvent.KEYCODE_F7,
+      KeyEvent.KEYCODE_F8,
+      KeyEvent.KEYCODE_F9,
+      KeyEvent.KEYCODE_INSERT,
+      KeyEvent.KEYCODE_MOVE_HOME,
+      KeyEvent.KEYCODE_MOVE_END,
+      KeyEvent.KEYCODE_PAGE_UP,
+      KeyEvent.KEYCODE_PAGE_DOWN,
+      KeyEvent.KEYCODE_UNKNOWN,
       KeyEvent.KEYCODE_SEARCH,
 
       // all media keys
@@ -105,34 +140,33 @@ public class InputConnection
    * modifications, filter() should return null.
    */
   private class SingeLineFilter implements InputFilter {
-     public CharSequence filter(CharSequence source, int start, int end,
-                                Spanned dest, int dstart, int dend) {
+    public CharSequence filter(
+        CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+      boolean keepOriginal = true;
+      StringBuilder builder = new StringBuilder(end - start);
 
-       boolean keepOriginal = true;
-       StringBuilder builder = new StringBuilder(end - start);
+      for (int i = start; i < end; i++) {
+        char c = source.charAt(i);
 
-       for (int i = start; i < end; i++) {
-         char c = source.charAt(i);
+        if (c == '\n') {
+          keepOriginal = false;
+        } else {
+          builder.append(c);
+        }
+      }
 
-         if (c == '\n') {
-           keepOriginal = false;
-         } else {
-           builder.append(c);
-         }
-       }
+      if (keepOriginal) {
+        return null;
+      }
 
-       if (keepOriginal) {
-         return null;
-       }
-
-       if (source instanceof Spanned) {
-         SpannableString s = new SpannableString(builder);
-         TextUtils.copySpansFrom((Spanned) source, start, builder.length(), null, s, 0);
-         return s;
-       } else {
-         return builder;
-       }
-     }
+      if (source instanceof Spanned) {
+        SpannableString s = new SpannableString(builder);
+        TextUtils.copySpansFrom((Spanned) source, start, builder.length(), null, s, 0);
+        return s;
+      } else {
+        return builder;
+      }
+    }
   }
 
   private static final int MAX_LENGTH_FOR_SINGLE_LINE_EDIT_TEXT = 5000;
@@ -164,7 +198,7 @@ public class InputConnection
       dontInsertChars.set(c);
     }
     // Listen for insets changes
-    WindowCompat.setDecorFitsSystemWindows(((Activity)targetView.getContext()).getWindow(), false);
+    WindowCompat.setDecorFitsSystemWindows(((Activity) targetView.getContext()).getWindow(), false);
     targetView.setOnKeyListener(this);
     // Apply EditorInfo settings
     this.setEditorInfo(settings.mEditorInfo);
@@ -225,12 +259,11 @@ public class InputConnection
     // Filters are being used to filter specific characters for hardware keyboards
     // (software input methods already support TYPE_TEXT_FLAG_MULTI_LINE).
     if ((settings.mEditorInfo.inputType & EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE) == 0) {
-      mEditable.setFilters(new InputFilter[]{
-              new InputFilter.LengthFilter(MAX_LENGTH_FOR_SINGLE_LINE_EDIT_TEXT),
-              new SingeLineFilter()
-      });
+      mEditable.setFilters(
+          new InputFilter[] {new InputFilter.LengthFilter(MAX_LENGTH_FOR_SINGLE_LINE_EDIT_TEXT),
+              new SingeLineFilter()});
     } else {
-      mEditable.setFilters(new InputFilter[]{ });
+      mEditable.setFilters(new InputFilter[] {});
     }
   }
 
@@ -299,8 +332,8 @@ public class InputConnection
   // From BaseInputConnection
   @Override
   public boolean setComposingText(CharSequence text, int newCursorPosition) {
-    Log.d(TAG, String.format("setComposingText='%s' newCursorPosition=%d",
-            text, newCursorPosition));
+    Log.d(
+        TAG, String.format("setComposingText='%s' newCursorPosition=%d", text, newCursorPosition));
     if (text == null) {
       return false;
     } else {
@@ -365,7 +398,6 @@ public class InputConnection
     Pair selection = this.getSelection();
     int first = Math.min(selection.first, selection.second);
     int second = Math.max(selection.first, selection.second);
-
 
     if (first < second) {
       // if we have a selection, just delete the selection
@@ -479,12 +511,15 @@ public class InputConnection
   }
 
   private boolean processKeyEvent(KeyEvent event) {
-    Log.d(TAG, String.format("processKeyEvent(key=%d) text=%s", event.getKeyCode(), this.mEditable.toString()));
+    Log.d(TAG,
+        String.format(
+            "processKeyEvent(key=%d) text=%s", event.getKeyCode(), this.mEditable.toString()));
 
     // Filter out Enter keys if multi-line mode is disabled.
-    if ((settings.mEditorInfo.inputType & EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE) == 0 &&
-        (event.getKeyCode() == KeyEvent.KEYCODE_ENTER ||
-        event.getKeyCode() == KeyEvent.KEYCODE_NUMPAD_ENTER) && event.hasNoModifiers()) {
+    if ((settings.mEditorInfo.inputType & EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE) == 0
+        && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER
+            || event.getKeyCode() == KeyEvent.KEYCODE_NUMPAD_ENTER)
+        && event.hasNoModifiers()) {
       this.performEditorAction(settings.mEditorInfo.actionId);
       return true;
     }
@@ -513,21 +548,23 @@ public class InputConnection
       } else if (event.getKeyCode() == KeyEvent.KEYCODE_DEL && selection.first > 0) {
         this.mEditable.delete(selection.first - 1, selection.first);
         this.stateUpdated(false);
-        Log.d(TAG, String.format("processKeyEvent: exit after DEL, text=%s", this.mEditable.toString()));
+        Log.d(TAG,
+            String.format("processKeyEvent: exit after DEL, text=%s", this.mEditable.toString()));
         return true;
       } else if (event.getKeyCode() == KeyEvent.KEYCODE_FORWARD_DEL
           && selection.first < this.mEditable.length()) {
         this.mEditable.delete(selection.first, selection.first + 1);
         this.stateUpdated(false);
-        Log.d(TAG, String.format("processKeyEvent: exit after FORWARD_DEL, text=%s", this.mEditable.toString()));
+        Log.d(TAG,
+            String.format(
+                "processKeyEvent: exit after FORWARD_DEL, text=%s", this.mEditable.toString()));
         return true;
       }
 
       int code = event.getKeyCode();
       if (!dontInsertChars.get(code)) {
         String charsToInsert = Character.toString((char) event.getUnicodeChar());
-        this.mEditable.insert(
-            selection.first, (CharSequence) charsToInsert);
+        this.mEditable.insert(selection.first, (CharSequence) charsToInsert);
         int length = this.mEditable.length();
 
         // Same logic as in setComposingText(): we must update composing region,
