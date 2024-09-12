@@ -15,81 +15,77 @@
  */
 package com.gametextinput.testbed;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.androidgamesdk.gametextinput.InputConnection;
 
 public class MainActivity extends AppCompatActivity {
-    static {
-        System.loadLibrary("game-input");
-    }
+  static {
+    System.loadLibrary("game-input");
+  }
 
-    InputEnabledTextView inputEnabledTextView;
-    TextView displayedText;
+  InputEnabledTextView inputEnabledTextView;
+  TextView displayedText;
 
-    native void onCreated();
-    native void setInputConnectionNative(InputConnection c);
-    native void showIme();
-    native void hideIme();
-    native void restartInput();
-    native void sendSelectionToStart();
-    native void sendSelectionToEnd();
+  native void onCreated();
+  native void setInputConnectionNative(InputConnection c);
+  native void showIme();
+  native void hideIme();
+  native void restartInput();
+  native void sendSelectionToStart();
+  native void sendSelectionToEnd();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        inputEnabledTextView =
-                (InputEnabledTextView) findViewById(R.id.input_enabled_text_view);
-        assert(inputEnabledTextView != null);
+    inputEnabledTextView = (InputEnabledTextView) findViewById(R.id.input_enabled_text_view);
+    assert (inputEnabledTextView != null);
 
-        displayedText =
-                (TextView) findViewById(R.id.displayed_text);
-        assert(displayedText != null);
+    displayedText = (TextView) findViewById(R.id.displayed_text);
+    assert (displayedText != null);
 
-        Button showImeButton = (Button) findViewById(R.id.show_ime_button);
-        showImeButton.setOnClickListener(view -> showIme());
-        Button hideImeButton = (Button) findViewById(R.id.hide_ime_button);
-        hideImeButton.setOnClickListener(view -> hideIme());
-        Button selectionStartButton = (Button) findViewById(R.id.selection_start_button);
-        selectionStartButton.setOnClickListener(view -> sendSelectionToStart());
-        Button selectionEndButton = (Button) findViewById(R.id.selection_end_button);
-        selectionEndButton.setOnClickListener(view -> sendSelectionToEnd());
-        Button typeNullButton = (Button) findViewById(R.id.type_null_button);
-        typeNullButton.setOnClickListener(view -> {
-            EditorInfo editorInfo = new EditorInfo();
-            editorInfo.inputType = InputType.TYPE_NULL;
-            inputEnabledTextView.mInputConnection.setEditorInfo(editorInfo);
-            restartInput();
-        });
-        Button typeTextButton = (Button) findViewById(R.id.type_text_button);
-        typeTextButton.setOnClickListener(view -> {
-            EditorInfo editorInfo = new EditorInfo();
-            editorInfo.inputType = InputType.TYPE_CLASS_TEXT;
-            inputEnabledTextView.mInputConnection.setEditorInfo(editorInfo);
-            restartInput();
-        });
-        Button typeNumberButton = (Button) findViewById(R.id.type_number_button);
-        typeNumberButton.setOnClickListener(view -> {
-            EditorInfo editorInfo = new EditorInfo();
-            editorInfo.inputType = InputType.TYPE_CLASS_NUMBER;
-            inputEnabledTextView.mInputConnection.setEditorInfo(editorInfo);
-            restartInput();
-        });
+    Button showImeButton = (Button) findViewById(R.id.show_ime_button);
+    showImeButton.setOnClickListener(view -> showIme());
+    Button hideImeButton = (Button) findViewById(R.id.hide_ime_button);
+    hideImeButton.setOnClickListener(view -> hideIme());
+    Button selectionStartButton = (Button) findViewById(R.id.selection_start_button);
+    selectionStartButton.setOnClickListener(view -> sendSelectionToStart());
+    Button selectionEndButton = (Button) findViewById(R.id.selection_end_button);
+    selectionEndButton.setOnClickListener(view -> sendSelectionToEnd());
+    Button typeNullButton = (Button) findViewById(R.id.type_null_button);
+    typeNullButton.setOnClickListener(view -> {
+      EditorInfo editorInfo = new EditorInfo();
+      editorInfo.inputType = InputType.TYPE_NULL;
+      inputEnabledTextView.mInputConnection.setEditorInfo(editorInfo);
+      restartInput();
+    });
+    Button typeTextButton = (Button) findViewById(R.id.type_text_button);
+    typeTextButton.setOnClickListener(view -> {
+      EditorInfo editorInfo = new EditorInfo();
+      editorInfo.inputType = InputType.TYPE_CLASS_TEXT;
+      inputEnabledTextView.mInputConnection.setEditorInfo(editorInfo);
+      restartInput();
+    });
+    Button typeNumberButton = (Button) findViewById(R.id.type_number_button);
+    typeNumberButton.setOnClickListener(view -> {
+      EditorInfo editorInfo = new EditorInfo();
+      editorInfo.inputType = InputType.TYPE_CLASS_NUMBER;
+      inputEnabledTextView.mInputConnection.setEditorInfo(editorInfo);
+      restartInput();
+    });
 
-        onCreated();
-        inputEnabledTextView.createInputConnection(InputType.TYPE_CLASS_TEXT);
-        setInputConnectionNative(inputEnabledTextView.mInputConnection);
-    }
+    onCreated();
+    inputEnabledTextView.createInputConnection(InputType.TYPE_CLASS_TEXT);
+    setInputConnectionNative(inputEnabledTextView.mInputConnection);
+  }
 
-    public void setDisplayedText(String text) {
-        displayedText.setText(text);
-    }
+  public void setDisplayedText(String text) {
+    displayedText.setText(text);
+  }
 }
