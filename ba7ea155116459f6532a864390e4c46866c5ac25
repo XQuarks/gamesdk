@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8315f65c_589cdd4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T14:41:23Z",
+      "side": 1,
+      "message": "Please start your commit message with one line headline: https://g3doc.corp.google.com/company/teams/android/developing/change/commit-change.md?cl\u003dhead#headline",
+      "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8bba564_91f15ae1",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T14:41:23Z",
+      "side": 1,
+      "message": "Please add tests for these keys in InputTests.java",
+      "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a536b8f0_ab9c9c78",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T14:41:23Z",
+      "side": 1,
+      "message": "Do we want to also handle End/Home keys?",
+      "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
