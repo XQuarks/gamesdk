@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-
 #include "native_engine.hpp"
 
 extern "C" {
-    void android_main(struct android_app *app);
+void android_main(struct android_app *app);
 };
 
 /*
@@ -27,7 +26,7 @@ extern "C" {
 */
 
 void android_main(struct android_app *app) {
-    NativeEngine *engine = new NativeEngine(app);
-    engine->GameLoop();
-    delete engine;
+  NativeEngine *engine = new NativeEngine(app);
+  engine->GameLoop();
+  delete engine;
 }

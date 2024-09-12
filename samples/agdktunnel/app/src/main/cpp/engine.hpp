@@ -17,8 +17,8 @@
 #ifndef agdktunnel_engine_hpp
 #define agdktunnel_engine_hpp
 
-// These are the include files that comprise the "engine" part of the game -- that is,
-// the parts of it that are not game-specific.
+// These are the include files that comprise the "engine" part of the game --
+// that is, the parts of it that are not game-specific.
 #include "common.hpp"
 #include "indexbuf.hpp"
 #include "joystick-support.hpp"

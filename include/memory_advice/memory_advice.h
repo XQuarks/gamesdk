@@ -34,41 +34,41 @@ extern "C" {
 #define MEMORY_ADVICE_MAJOR_VERSION 2
 #define MEMORY_ADVICE_MINOR_VERSION 1
 #define MEMORY_ADVICE_BUGFIX_VERSION 0
-#define MEMORY_ADVICE_PACKED_VERSION                         \
-    ANDROID_GAMESDK_PACKED_VERSION(TUNINGFORK_MAJOR_VERSION, \
-                                   TUNINGFORK_MINOR_VERSION, \
-                                   TUNINGFORK_BUGFIX_VERSION)
+#define MEMORY_ADVICE_PACKED_VERSION                       \
+  ANDROID_GAMESDK_PACKED_VERSION(TUNINGFORK_MAJOR_VERSION, \
+                                 TUNINGFORK_MINOR_VERSION, \
+                                 TUNINGFORK_BUGFIX_VERSION)
 
 /**
  * @brief All the error codes that can be returned by MemoryAdvice functions.
  */
 typedef enum MemoryAdvice_ErrorCode : int32_t {
-    MEMORYADVICE_ERROR_OK = 0,  ///< No error
-    MEMORYADVICE_ERROR_NOT_INITIALIZED =
-        -1,  ///< A call was made before MemoryAdvice was initialized.
-    MEMORYADVICE_ERROR_ALREADY_INITIALIZED =
-        -2,  ///< MemoryAdvice_init was called more than once.
-    MEMORYADVICE_ERROR_LOOKUP_TABLE_INVALID =
-        -3,  ///< The provided lookup table was not a valid json object.
-    MEMORYADVICE_ERROR_ADVISOR_PARAMETERS_INVALID =
-        -4,  ///< The provided advisor parameters was not a valid json object.
-    MEMORYADVICE_ERROR_WATCHER_NOT_FOUND =
-        -5,  ///< UnregisterWatcher was called with an invalid callback.
-    MEMORYADVICE_ERROR_TFLITE_MODEL_INVALID =
-        -6,  ///< A correct TFLite model was not provided.
+  MEMORYADVICE_ERROR_OK = 0,  ///< No error
+  MEMORYADVICE_ERROR_NOT_INITIALIZED =
+      -1,  ///< A call was made before MemoryAdvice was initialized.
+  MEMORYADVICE_ERROR_ALREADY_INITIALIZED =
+      -2,  ///< MemoryAdvice_init was called more than once.
+  MEMORYADVICE_ERROR_LOOKUP_TABLE_INVALID =
+      -3,  ///< The provided lookup table was not a valid json object.
+  MEMORYADVICE_ERROR_ADVISOR_PARAMETERS_INVALID =
+      -4,  ///< The provided advisor parameters was not a valid json object.
+  MEMORYADVICE_ERROR_WATCHER_NOT_FOUND =
+      -5,  ///< UnregisterWatcher was called with an invalid callback.
+  MEMORYADVICE_ERROR_TFLITE_MODEL_INVALID =
+      -6,  ///< A correct TFLite model was not provided.
 } MemoryAdvice_ErrorCode;
 
 /**
  * @brief All possible memory states that can be reported by the library.
  */
 typedef enum MemoryAdvice_MemoryState : int32_t {
-    MEMORYADVICE_STATE_UNKNOWN = 0,  ///< The memory state cannot be determined.
-    MEMORYADVICE_STATE_OK = 1,  ///< The application can safely allocate memory.
-    MEMORYADVICE_STATE_APPROACHING_LIMIT =
-        2,  ///< The application should minimize memory allocation.
-    MEMORYADVICE_STATE_CRITICAL =
-        3,  ///< The application should free memory as soon as possible, until
-            ///< the memory state changes.
+  MEMORYADVICE_STATE_UNKNOWN = 0,  ///< The memory state cannot be determined.
+  MEMORYADVICE_STATE_OK = 1,  ///< The application can safely allocate memory.
+  MEMORYADVICE_STATE_APPROACHING_LIMIT =
+      2,  ///< The application should minimize memory allocation.
+  MEMORYADVICE_STATE_CRITICAL =
+      3,  ///< The application should free memory as soon as possible, until
+          ///< the memory state changes.
 } MemoryAdvice_MemoryState;
 
 typedef void (*MemoryAdvice_WatcherCallback)(MemoryAdvice_MemoryState state,

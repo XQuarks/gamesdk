@@ -43,87 +43,87 @@ namespace swappy {
  * device, and then calls that class's do-method for the entrypoint.
  */
 class SwappyVk {
-   public:
-    static SwappyVk& getInstance() {
-        static SwappyVk instance;
-        return instance;
+ public:
+  static SwappyVk& getInstance() {
+    static SwappyVk instance;
+    return instance;
+  }
+
+  ~SwappyVk() {
+    if (pFunctionProvider) {
+      pFunctionProvider->close();
     }
+  }
 
-    ~SwappyVk() {
-        if (pFunctionProvider) {
-            pFunctionProvider->close();
-        }
-    }
+  void swappyVkDetermineDeviceExtensions(
+      VkPhysicalDevice physicalDevice, uint32_t availableExtensionCount,
+      VkExtensionProperties* pAvailableExtensions,
+      uint32_t* pRequiredExtensionCount, char** pRequiredExtensions);
+  void SetQueueFamilyIndex(VkDevice device, VkQueue queue,
+                           uint32_t queueFamilyIndex);
+  bool GetRefreshCycleDuration(JNIEnv* env, jobject jactivity,
+                               VkPhysicalDevice physicalDevice, VkDevice device,
+                               VkSwapchainKHR swapchain,
+                               uint64_t* pRefreshDuration);
+  void SetWindow(VkDevice device, VkSwapchainKHR swapchain,
+                 ANativeWindow* window);
+  void SetSwapDuration(VkDevice device, VkSwapchainKHR swapchain,
+                       uint64_t swapNs);
+  VkResult QueuePresent(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
+  void DestroySwapchain(VkDevice device, VkSwapchainKHR swapchain);
+  void DestroyDevice(VkDevice device);
 
-    void swappyVkDetermineDeviceExtensions(
-        VkPhysicalDevice physicalDevice, uint32_t availableExtensionCount,
-        VkExtensionProperties* pAvailableExtensions,
-        uint32_t* pRequiredExtensionCount, char** pRequiredExtensions);
-    void SetQueueFamilyIndex(VkDevice device, VkQueue queue,
-                             uint32_t queueFamilyIndex);
-    bool GetRefreshCycleDuration(JNIEnv* env, jobject jactivity,
-                                 VkPhysicalDevice physicalDevice,
-                                 VkDevice device, VkSwapchainKHR swapchain,
-                                 uint64_t* pRefreshDuration);
-    void SetWindow(VkDevice device, VkSwapchainKHR swapchain,
-                   ANativeWindow* window);
-    void SetSwapDuration(VkDevice device, VkSwapchainKHR swapchain,
-                         uint64_t swapNs);
-    VkResult QueuePresent(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
-    void DestroySwapchain(VkDevice device, VkSwapchainKHR swapchain);
-    void DestroyDevice(VkDevice device);
+  void SetAutoSwapInterval(bool enabled);
+  void SetAutoPipelineMode(bool enabled);
+  void SetMaxAutoSwapDuration(std::chrono::nanoseconds maxDuration);
+  void SetFenceTimeout(std::chrono::nanoseconds duration);
+  std::chrono::nanoseconds GetFenceTimeout() const;
+  std::chrono::nanoseconds GetSwapInterval(VkSwapchainKHR swapchain);
+  int GetSupportedRefreshPeriodsNS(uint64_t* out_refreshrates,
+                                   int allocated_entries,
+                                   VkSwapchainKHR swapchain);
 
-    void SetAutoSwapInterval(bool enabled);
-    void SetAutoPipelineMode(bool enabled);
-    void SetMaxAutoSwapDuration(std::chrono::nanoseconds maxDuration);
-    void SetFenceTimeout(std::chrono::nanoseconds duration);
-    std::chrono::nanoseconds GetFenceTimeout() const;
-    std::chrono::nanoseconds GetSwapInterval(VkSwapchainKHR swapchain);
-    int GetSupportedRefreshPeriodsNS(uint64_t* out_refreshrates,
-                                     int allocated_entries,
-                                     VkSwapchainKHR swapchain);
+  void addTracer(const SwappyTracer* t);
+  void removeTracer(const SwappyTracer* t);
 
-    void addTracer(const SwappyTracer* t);
-    void removeTracer(const SwappyTracer* t);
+  void SetFunctionProvider(const SwappyVkFunctionProvider* pFunctionProvider);
+  bool InitFunctions();
 
-    void SetFunctionProvider(const SwappyVkFunctionProvider* pFunctionProvider);
-    bool InitFunctions();
+  bool IsEnabled(VkSwapchainKHR swapchain, bool* isEnabled);
 
-    bool IsEnabled(VkSwapchainKHR swapchain, bool* isEnabled);
+  // Frame statistics.
+  void enableStats(VkSwapchainKHR swapchain, bool enabled);
+  void getStats(VkSwapchainKHR swapchain, SwappyStats* swappyStats);
+  void recordFrameStart(VkQueue queue, VkSwapchainKHR swapchain,
+                        uint32_t image);
+  void clearStats(VkSwapchainKHR swapchain);
 
-    // Frame statistics.
-    void enableStats(VkSwapchainKHR swapchain, bool enabled);
-    void getStats(VkSwapchainKHR swapchain, SwappyStats* swappyStats);
-    void recordFrameStart(VkQueue queue, VkSwapchainKHR swapchain,
-                          uint32_t image);
-    void clearStats(VkSwapchainKHR swapchain);
+  void resetFramePacing(VkSwapchainKHR swapchain);
+  void enableFramePacing(VkSwapchainKHR swapchain, bool enable);
+  void enableBlockingWait(VkSwapchainKHR swapchain, bool enable);
 
-    void resetFramePacing(VkSwapchainKHR swapchain);
-    void enableFramePacing(VkSwapchainKHR swapchain, bool enable);
-    void enableBlockingWait(VkSwapchainKHR swapchain, bool enable);
+ private:
+  std::map<VkPhysicalDevice, bool> doesPhysicalDeviceHaveGoogleDisplayTiming;
+  std::map<VkSwapchainKHR, std::shared_ptr<SwappyVkBase>>
+      perSwapchainImplementation;
 
-   private:
-    std::map<VkPhysicalDevice, bool> doesPhysicalDeviceHaveGoogleDisplayTiming;
-    std::map<VkSwapchainKHR, std::shared_ptr<SwappyVkBase>>
-        perSwapchainImplementation;
+  struct QueueFamilyIndex {
+    VkDevice device;
+    uint32_t queueFamilyIndex;
+  };
+  std::map<VkQueue, QueueFamilyIndex> perQueueFamilyIndex;
 
-    struct QueueFamilyIndex {
-        VkDevice device;
-        uint32_t queueFamilyIndex;
-    };
-    std::map<VkQueue, QueueFamilyIndex> perQueueFamilyIndex;
+  const SwappyVkFunctionProvider* pFunctionProvider = nullptr;
 
-    const SwappyVkFunctionProvider* pFunctionProvider = nullptr;
+ private:
+  SwappyVk() {}  // Need to implement this constructor
 
-   private:
-    SwappyVk() {}  // Need to implement this constructor
+  // Forbid copies.
+  SwappyVk(SwappyVk const&) = delete;
+  void operator=(SwappyVk const&) = delete;
 
-    // Forbid copies.
-    SwappyVk(SwappyVk const&) = delete;
-    void operator=(SwappyVk const&) = delete;
-
-    std::mutex tracer_list_lock;
-    std::list<SwappyTracer> tracer_list GUARDED_BY(tracer_list_lock);
+  std::mutex tracer_list_lock;
+  std::list<SwappyTracer> tracer_list GUARDED_BY(tracer_list_lock);
 };
 
 }  // namespace swappy
