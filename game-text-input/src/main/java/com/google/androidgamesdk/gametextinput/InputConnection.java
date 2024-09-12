@@ -603,11 +603,9 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     State state = new State(
         this.mEditable.toString(), selection.first, selection.second, cr.first, cr.second);
 
-    // Keep a reference to the listener to avoid a race condition when setting the listener.
-    Listener listener = this.listener;
-
     // We always propagate state change events because unfortunately keyboard visibility functions
     // are unreliable, and text editor logic should not depend on them.
+    Listener listener = this.listener;
     if (listener != null) {
       listener.stateChanged(state, dismissed);
     }
@@ -623,6 +621,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
   public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
     Log.d(TAG, "onApplyWindowInsets" + this.isSoftwareKeyboardVisible());
 
+    Listener listener = this.listener;
     if (listener != null) {
       listener.onImeInsetsChanged(insets.getInsets(WindowInsetsCompat.Type.ime()));
     }
@@ -691,6 +690,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    */
   @Override
   public boolean performEditorAction(int action) {
+    Listener listener = this.listener;
     if (listener != null) {
       listener.onEditorAction(action);
       return true;
