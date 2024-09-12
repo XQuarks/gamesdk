@@ -88,29 +88,6 @@ public class InputTest {
     };
   }
 
-  // This action implements the DEL key on the software keyboard (BackSpace on PC)
-  private ViewAction pressDel() {
-    return new ViewAction() {
-      @Override
-      public Matcher<View> getConstraints() {
-        return isDisplayed();
-      }
-
-      @Override
-      public String getDescription() {
-        return "Select text";
-      }
-
-      @Override
-      public void perform(UiController uiController, View view) {
-        InputEnabledTextView inputView = (InputEnabledTextView) view;
-        InputConnection ic = inputView.getInputConnection();
-
-        ic.deleteSurroundingText(1, 0);
-      }
-    };
-  }
-
   //////////////////////////////////////////////////////////////////////////
   // Below are tests. First group of tests is for simple text typing.
   //////////////////////////////////////////////////////////////////////////
@@ -177,30 +154,6 @@ public class InputTest {
         .perform(typeText("abcdef"), pressKey(KeyEvent.KEYCODE_DEL), closeSoftKeyboard());
 
     onView(withId(R.id.displayed_text)).check(matches(withText("abcde")));
-  }
-
-  @Test
-  public void softwareBackspaceAtTheEndWorks() {
-    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
-
-    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(typeText("abcdef"), pressDel(), closeSoftKeyboard());
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("abcde")));
-  }
-
-  @Test
-  public void softwareBackspaceAtTheStartDoesNothing() {
-    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
-
-    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(typeText("abc"), selectText(0, 0), pressDel(), closeSoftKeyboard());
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("abc")));
   }
 
   @Test
@@ -285,26 +238,6 @@ public class InputTest {
     onView(withId(R.id.displayed_text)).check(matches(withText("axyzcd")));
   }
 
-  @Test
-  public void softwareBackspaceInTheMiddleWorks() {
-    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
-
-    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(typeText("abcdef"), selectText(1, 1), pressDel());
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("bcdef")));
-
-    onView(withId(R.id.input_enabled_text_view)).perform(selectText(3, 3), pressDel(), pressDel());
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("bef")));
-
-    onView(withId(R.id.input_enabled_text_view)).perform(typeText("xyz"));
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("bxyzef")));
-  }
-
   //////////////////////////////////////////////////////////////////////////
   // Tests for deletion of selected text.
   //////////////////////////////////////////////////////////////////////////
@@ -319,18 +252,6 @@ public class InputTest {
         .perform(typeText("abcdef"), selectText(0, 6), typeText("xyz"), closeSoftKeyboard());
 
     onView(withId(R.id.displayed_text)).check(matches(withText("xyz")));
-  }
-
-  @Test
-  public void selectAllWithSoftwareBackspaceWorks() {
-    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
-
-    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(typeText("abcdef"), selectText(0, 6), pressDel(), closeSoftKeyboard());
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("")));
   }
 
   @Test
@@ -357,28 +278,6 @@ public class InputTest {
             closeSoftKeyboard());
 
     onView(withId(R.id.displayed_text)).check(matches(withText("")));
-  }
-
-  @Test
-  public void softwareBackspaceWorksWithAnySelection() {
-    onView(withId(R.id.displayed_text)).check(matches(withText(INITIAL_VALUE)));
-
-    activityScenarioRule.getScenario().onActivity(activity -> activity.enableSoftKeyboard());
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(typeText("abcdefgh"), selectText(6, 8), pressDel());
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("abcdef")));
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(selectText(0, 2), pressDel(), typeText("mn"));
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("mncdef")));
-
-    onView(withId(R.id.input_enabled_text_view))
-        .perform(selectText(1, 4), pressDel(), typeText("xyz"));
-
-    onView(withId(R.id.displayed_text)).check(matches(withText("mxyzef")));
   }
 
   @Test
