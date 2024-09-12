@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48284306_b996a045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T14:49:35Z",
+      "side": 1,
+      "message": "Commit messages should start with one line header: https://g3doc.corp.google.com/company/teams/android/developing/change/commit-change.md?cl\u003dhead#headline",
+      "revId": "7c784845c11668f3df1799b56994b24a29cdd281",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74b8bdb_7a21d624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-12T14:49:35Z",
+      "side": 1,
+      "message": "Do this in Gamesdk directory:\n\nfind . -name \u0027*.cpp\u0027 -or -name \u0027*.h\u0027 -or -name \u0027*.java\u0027 -or -name \u0027*.inl\u0027 -or -name \u0027*.hpp\u0027 -or -name \u0027*.c\u0027 -print | xargs clang-format -i",
+      "revId": "7c784845c11668f3df1799b56994b24a29cdd281",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
