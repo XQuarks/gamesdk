@@ -303,7 +303,9 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    * @return This InputConnection, for setter chaining.
    */
   public final InputConnection setListener(Listener listener) {
-    this.listener = listener;
+    synchronized (this) {
+      this.listener = listener;
+    }
     return this;
   }
 
@@ -603,13 +605,12 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     State state = new State(
         this.mEditable.toString(), selection.first, selection.second, cr.first, cr.second);
 
-    // Keep a reference to the listener to avoid a race condition when setting the listener.
-    Listener listener = this.listener;
-
     // We always propagate state change events because unfortunately keyboard visibility functions
     // are unreliable, and text editor logic should not depend on them.
-    if (listener != null) {
-      listener.stateChanged(state, dismissed);
+    synchronized (this) {
+      if (listener != null) {
+        listener.stateChanged(state, dismissed);
+      }
     }
   }
 
@@ -623,8 +624,10 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
   public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
     Log.d(TAG, "onApplyWindowInsets" + this.isSoftwareKeyboardVisible());
 
-    if (listener != null) {
-      listener.onImeInsetsChanged(insets.getInsets(WindowInsetsCompat.Type.ime()));
+    synchronized (this) {
+      if (listener != null) {
+        listener.onImeInsetsChanged(insets.getInsets(WindowInsetsCompat.Type.ime()));
+      }
     }
 
     boolean visible = this.isSoftwareKeyboardVisible();
@@ -637,8 +640,10 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
       this.targetView.clearFocus();
     }
 
-    if (listener != null) {
-      listener.onSoftwareKeyboardVisibilityChanged(visible);
+    synchronized (this) {
+      if (listener != null) {
+        listener.onSoftwareKeyboardVisibilityChanged(visible);
+      }
     }
 
     return insets;
@@ -691,11 +696,13 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    */
   @Override
   public boolean performEditorAction(int action) {
-    if (listener != null) {
-      listener.onEditorAction(action);
-      return true;
-    } else {
-      return false;
+    synchronized (this) {
+      if (listener != null) {
+        listener.onEditorAction(action);
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 }
