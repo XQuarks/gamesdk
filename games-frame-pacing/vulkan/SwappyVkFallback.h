@@ -28,22 +28,21 @@
 namespace swappy {
 
 class SwappyVkFallback : public SwappyVkBase {
-   public:
-    SwappyVkFallback(JNIEnv* env, jobject jactivity,
-                     VkPhysicalDevice physicalDevice, VkDevice device,
-                     const SwappyVkFunctionProvider* provider);
+ public:
+  SwappyVkFallback(JNIEnv* env, jobject jactivity,
+                   VkPhysicalDevice physicalDevice, VkDevice device,
+                   const SwappyVkFunctionProvider* provider);
 
-    bool doGetRefreshCycleDuration(VkSwapchainKHR swapchain,
-                                   uint64_t* pRefreshDuration) override final;
+  bool doGetRefreshCycleDuration(VkSwapchainKHR swapchain,
+                                 uint64_t* pRefreshDuration) override final;
 
-    VkResult doQueuePresent(
-        VkQueue queue, uint32_t queueFamilyIndex,
-        const VkPresentInfoKHR* pPresentInfo) override final;
+  VkResult doQueuePresent(VkQueue queue, uint32_t queueFamilyIndex,
+                          const VkPresentInfoKHR* pPresentInfo) override final;
 
-    void enableStats(bool enabled) override final;
-    void recordFrameStart(VkQueue queue, uint32_t image) override final;
-    void getStats(SwappyStats* swappyStats) override final;
-    void clearStats() override final;
+  void enableStats(bool enabled) override final;
+  void recordFrameStart(VkQueue queue, uint32_t image) override final;
+  void getStats(SwappyStats* swappyStats) override final;
+  void clearStats() override final;
 };
 
 }  // namespace swappy

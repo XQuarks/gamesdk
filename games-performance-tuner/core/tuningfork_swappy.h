@@ -28,13 +28,13 @@ typedef void (*SwappyStartFrameCallbackPre1_5)(
 typedef void (*SwappyPostWaitCallbackPre1_5)(void*, long cpu_time_ns,
                                              long gpu_time_ns);
 struct SwappyTracerPre1_5 {
-    SwappyPreWaitCallback preWait = nullptr;
-    SwappyPostWaitCallbackPre1_5 postWait = nullptr;
-    SwappyPreSwapBuffersCallback preSwapBuffers = nullptr;
-    SwappyPostSwapBuffersCallbackPre1_5 postSwapBuffers = nullptr;
-    SwappyStartFrameCallbackPre1_5 startFrame = nullptr;
-    void* userData = nullptr;
-    SwappySwapIntervalChangedCallback swapIntervalChanged = nullptr;
+  SwappyPreWaitCallback preWait = nullptr;
+  SwappyPostWaitCallbackPre1_5 postWait = nullptr;
+  SwappyPreSwapBuffersCallback preSwapBuffers = nullptr;
+  SwappyPostSwapBuffersCallbackPre1_5 postSwapBuffers = nullptr;
+  SwappyStartFrameCallbackPre1_5 startFrame = nullptr;
+  void* userData = nullptr;
+  SwappySwapIntervalChangedCallback swapIntervalChanged = nullptr;
 };
 constexpr int SWAPPY_VERSION_1_5 = ((1 << 16) | 5);
 
@@ -42,13 +42,13 @@ constexpr int SWAPPY_VERSION_1_5 = ((1 << 16) | 5);
 // and types of times were longs.
 typedef SwappyPreWaitCallback SwappyWaitCallback;
 struct SwappyTracerPre1_3 {
-    SwappyWaitCallback preWait = nullptr;
-    SwappyWaitCallback postWait = nullptr;
-    SwappyPreSwapBuffersCallback preSwapBuffers = nullptr;
-    SwappyPostSwapBuffersCallbackPre1_5 postSwapBuffers = nullptr;
-    SwappyStartFrameCallbackPre1_5 startFrame = nullptr;
-    void* userData = nullptr;
-    SwappySwapIntervalChangedCallback swapIntervalChanged = nullptr;
+  SwappyWaitCallback preWait = nullptr;
+  SwappyWaitCallback postWait = nullptr;
+  SwappyPreSwapBuffersCallback preSwapBuffers = nullptr;
+  SwappyPostSwapBuffersCallbackPre1_5 postSwapBuffers = nullptr;
+  SwappyStartFrameCallbackPre1_5 startFrame = nullptr;
+  void* userData = nullptr;
+  SwappySwapIntervalChangedCallback swapIntervalChanged = nullptr;
 };
 constexpr int SWAPPY_VERSION_1_3 = ((1 << 16) | 3);
 
@@ -58,35 +58,33 @@ namespace tuningfork {
 // if it is
 //  enabled + available.
 class SwappyTraceWrapper {
-    SwappyTracerFn swappyTracerFn_ = nullptr;
-    SwappyTracer trace_ = {};
-    TuningFork_TraceHandle logicTraceHandle_ = 0;
+  SwappyTracerFn swappyTracerFn_ = nullptr;
+  SwappyTracer trace_ = {};
+  TuningFork_TraceHandle logicTraceHandle_ = 0;
 
-   public:
-    SwappyTraceWrapper(const Settings& settings);
-    // Swappy trace callbacks
-    static void StartFrameCallback(void* userPtr, int /*currentFrame*/,
-                                   int64_t /*desiredPresentationTimeMillis*/);
-    static void PreWaitCallback(void* userPtr);
-    static void PostWaitCallback(void* userPtr, int64_t cpu_time_ns,
-                                 int64_t gpu_time_ns);
-    static void PreSwapBuffersCallback(void* userPtr);
-    static void PostSwapBuffersCallback(
-        void* userPtr, int64_t /*desiredPresentationTimeMillis*/);
+ public:
+  SwappyTraceWrapper(const Settings& settings);
+  // Swappy trace callbacks
+  static void StartFrameCallback(void* userPtr, int /*currentFrame*/,
+                                 int64_t /*desiredPresentationTimeMillis*/);
+  static void PreWaitCallback(void* userPtr);
+  static void PostWaitCallback(void* userPtr, int64_t cpu_time_ns,
+                               int64_t gpu_time_ns);
+  static void PreSwapBuffersCallback(void* userPtr);
+  static void PostSwapBuffersCallback(
+      void* userPtr, int64_t /*desiredPresentationTimeMillis*/);
 
-    static void StartFrameCallbackPre1_5(
-        void* userPtr, int /*currentFrame*/,
-        long /*desiredPresentationTimeMillis*/);
-    static void PostWaitCallbackPre1_5(void* userPtr, long cpuTimeNs,
-                                       long gpuTimeNs);
-    static void PostSwapBuffersCallbackPre1_5(
-        void* userPtr, long /*desiredPresentationTimeMillis*/);
+  static void StartFrameCallbackPre1_5(void* userPtr, int /*currentFrame*/,
+                                       long /*desiredPresentationTimeMillis*/);
+  static void PostWaitCallbackPre1_5(void* userPtr, long cpuTimeNs,
+                                     long gpuTimeNs);
+  static void PostSwapBuffersCallbackPre1_5(
+      void* userPtr, long /*desiredPresentationTimeMillis*/);
 
-    static void StartFrameCallbackPre1_3(
-        void* userPtr, int /*currentFrame*/,
-        long /*desiredPresentationTimeMillis*/);
-    static void PreWaitCallbackPre1_3(void* userPtr);
-    static void PostWaitCallbackPre1_3(void* userPtr);
+  static void StartFrameCallbackPre1_3(void* userPtr, int /*currentFrame*/,
+                                       long /*desiredPresentationTimeMillis*/);
+  static void PreWaitCallbackPre1_3(void* userPtr);
+  static void PostWaitCallbackPre1_3(void* userPtr);
 };
 
 }  // namespace tuningfork

@@ -60,7 +60,7 @@ typedef std::vector<std::pair<ProtobufSerialization, uint32_t>>
  */
 inline ProtobufSerialization ToProtobufSerialization(
     const TuningFork_CProtobufSerialization& cpbs) {
-    return ProtobufSerialization(cpbs.bytes, cpbs.bytes + cpbs.size);
+  return ProtobufSerialization(cpbs.bytes, cpbs.bytes + cpbs.size);
 }
 
 /**
@@ -68,10 +68,10 @@ inline ProtobufSerialization ToProtobufSerialization(
  */
 inline void ToCProtobufSerialization(const ProtobufSerialization& pbs,
                                      TuningFork_CProtobufSerialization& cpbs) {
-    cpbs.bytes = (uint8_t*)::malloc(pbs.size());
-    memcpy(cpbs.bytes, pbs.data(), pbs.size());
-    cpbs.size = pbs.size();
-    cpbs.dealloc = TuningFork_CProtobufSerialization_Dealloc;
+  cpbs.bytes = (uint8_t*)::malloc(pbs.size());
+  memcpy(cpbs.bytes, pbs.data(), pbs.size());
+  cpbs.size = pbs.size();
+  cpbs.dealloc = TuningFork_CProtobufSerialization_Dealloc;
 }
 
 /**
@@ -79,17 +79,17 @@ inline void ToCProtobufSerialization(const ProtobufSerialization& pbs,
  */
 inline void ToCProtobufSerialization(const std::string& s,
                                      TuningFork_CProtobufSerialization& cpbs) {
-    cpbs.bytes = (uint8_t*)::malloc(s.size());
-    memcpy(cpbs.bytes, s.data(), s.size());
-    cpbs.size = s.size();
-    cpbs.dealloc = TuningFork_CProtobufSerialization_Dealloc;
+  cpbs.bytes = (uint8_t*)::malloc(s.size());
+  memcpy(cpbs.bytes, s.data(), s.size());
+  cpbs.size = s.size();
+  cpbs.dealloc = TuningFork_CProtobufSerialization_Dealloc;
 }
 
 /**
  * @brief Convert from a C serialization to an STL string.
  */
 inline std::string ToString(const TuningFork_CProtobufSerialization& cpbs) {
-    return std::string((const char*)cpbs.bytes, cpbs.size);
+  return std::string((const char*)cpbs.bytes, cpbs.size);
 }
 
 /**
@@ -97,7 +97,7 @@ inline std::string ToString(const TuningFork_CProtobufSerialization& cpbs) {
  */
 template <typename T>
 bool Deserialize(const std::vector<uint8_t>& ser, T& pb) {
-    return pb.ParseFromArray(ser.data(), ser.size());
+  return pb.ParseFromArray(ser.data(), ser.size());
 }
 
 /**
@@ -105,8 +105,8 @@ bool Deserialize(const std::vector<uint8_t>& ser, T& pb) {
  */
 template <typename T>
 bool Serialize(const T& pb, std::vector<uint8_t>& ser) {
-    ser.resize(pb.ByteSizeLong());
-    return pb.SerializeToArray(ser.data(), ser.size());
+  ser.resize(pb.ByteSizeLong());
+  return pb.SerializeToArray(ser.data(), ser.size());
 }
 
 /**
@@ -114,9 +114,9 @@ bool Serialize(const T& pb, std::vector<uint8_t>& ser) {
  */
 template <typename T>
 std::vector<uint8_t> Serialize(const T& pb) {
-    std::vector<uint8_t> ser(pb.ByteSizeLong());
-    pb.SerializeToArray(ser.data(), ser.size());
-    return ser;
+  std::vector<uint8_t> ser(pb.ByteSizeLong());
+  pb.SerializeToArray(ser.data(), ser.size());
+  return ser;
 }
 
 /**
@@ -128,12 +128,12 @@ std::vector<uint8_t> Serialize(const T& pb) {
 template <typename T>
 TuningFork_CProtobufSerialization TuningFork_CProtobufSerialization_Alloc(
     const T& pb) {
-    TuningFork_CProtobufSerialization cser;
-    cser.bytes = (uint8_t*)::malloc(pb.ByteSizeLong());
-    cser.size = pb.ByteSizeLong();
-    cser.dealloc = TuningFork_CProtobufSerialization_Dealloc;
-    pb.SerializeToArray(cser.bytes, cser.size);
-    return cser;
+  TuningFork_CProtobufSerialization cser;
+  cser.bytes = (uint8_t*)::malloc(pb.ByteSizeLong());
+  cser.size = pb.ByteSizeLong();
+  cser.dealloc = TuningFork_CProtobufSerialization_Dealloc;
+  pb.SerializeToArray(cser.bytes, cser.size);
+  return cser;
 }
 
 }  // namespace tuningfork

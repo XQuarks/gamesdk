@@ -16,52 +16,53 @@
 
 #pragma once
 
-#include "Thread.h"
-
+#include <chrono>
 #include <cstdint>
 #include <mutex>
 #include <string>
 #include <vector>
-#include <chrono>
+
+#include "Thread.h"
 
 namespace samples {
 
 class Settings {
-private:
-    // Allows construction with std::unique_ptr from a static method, but disallows construction
-    // outside of the class since no one else can construct a ConstructorTag
-    struct ConstructorTag {
-    };
-public:
-    explicit Settings(ConstructorTag) :  mHotPocket(false) {}
+ private:
+  // Allows construction with std::unique_ptr from a static method, but
+  // disallows construction outside of the class since no one else can construct
+  // a ConstructorTag
+  struct ConstructorTag {};
 
-    static Settings *getInstance();
+ public:
+  explicit Settings(ConstructorTag) : mHotPocket(false) {}
 
-    using Listener = std::function<void()>;
+  static Settings *getInstance();
 
-    void addListener(Listener listener);
+  using Listener = std::function<void()>;
 
-    void setPreference(std::string key, std::string value);
+  void addListener(Listener listener);
 
-    std::chrono::nanoseconds getRefreshPeriod() const;
+  void setPreference(std::string key, std::string value);
 
-    int32_t getSwapIntervalNS() const;
+  std::chrono::nanoseconds getRefreshPeriod() const;
 
-    bool getUseAffinity() const;
+  int32_t getSwapIntervalNS() const;
 
-    bool getHotPocket() const;
+  bool getUseAffinity() const;
 
-    bool getEnableSwappy() const;
+  bool getHotPocket() const;
 
-private:
-    void notifyListeners();
+  bool getEnableSwappy() const;
 
-    mutable std::mutex mMutex;
-    std::vector<Listener> mListeners GUARDED_BY(mMutex);
+ private:
+  void notifyListeners();
 
-    std::atomic<bool> mHotPocket;
+  mutable std::mutex mMutex;
+  std::vector<Listener> mListeners GUARDED_BY(mMutex);
 
-    std::atomic<bool> mEnableSwappy;
+  std::atomic<bool> mHotPocket;
+
+  std::atomic<bool> mEnableSwappy;
 };
 
-} // namespace samples
+}  // namespace samples
