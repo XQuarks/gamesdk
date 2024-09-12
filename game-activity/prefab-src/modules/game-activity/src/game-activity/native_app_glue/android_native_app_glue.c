@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "android_native_app_glue.h"
+#include "game-activity/native_app_glue/android_native_app_glue.h"
 
 #include <android/log.h>
 #include <assert.h>

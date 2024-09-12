@@ -21,12 +21,8 @@
 #define LOG_TAG "game-input"
 #define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__);
 
-// Import the Game Text Input interfae:
+// Import the GameTextInput interface:
 #include <game-text-input/gametextinput.h>
-
-// Also include the source of Game Text Input in one of your C++ file, so that the
-// library is compiled as part of your build:
-#include <game-text-input/gametextinput.cpp>
 
 static GameTextInput *gameTextInput = nullptr;
 static jobject activity = nullptr;

@@ -127,6 +127,7 @@ dependencies {
     //        'games-controller-release.aar',
     //])
     implementation project(':game-activity')
+//    implementation files("/usr/local/google/home/artyompp/dev/android-games-sdk/dist/fullsdk/game-activity-debug.aar")
     implementation project(':games-performance-tuner')
     implementation project(':games-frame-pacing')
     implementation project(':games-controller')

@@ -27,7 +27,6 @@
 #include <stdint.h>
 
 #include "common/gamesdk_common.h"
-#include "gamecommon.h"
 
 #ifdef __cplusplus
 extern "C" {

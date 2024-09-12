@@ -21,9 +21,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/prefab-src/modules/game-activity
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../src/common/)
 
-set(GAMEACTIVITY_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/prefab-src/modules/game-activity/include/")
+set(GAMEACTIVITY_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/prefab-src/modules/game-activity/src/")
 
 set(GAMEACTIVITY_SRCS
+    ${GAMEACTIVITY_SRC_DIR}/common/system_utils.cpp
     ${GAMEACTIVITY_SRC_DIR}/game-activity/GameActivity.cpp
     ${GAMEACTIVITY_SRC_DIR}/game-activity/GameActivityEvents.cpp
     ${GAMEACTIVITY_SRC_DIR}/game-activity/native_app_glue/android_native_app_glue.c
@@ -34,12 +35,9 @@ set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g0")
 
 # We use this empty library to distribute source files in our .aar
 # See the build.gradle file
-add_library(game-activity STATIC ${CMAKE_CURRENT_SOURCE_DIR}/null.cpp)
+add_library(game-activity STATIC ${GAMEACTIVITY_SRCS})
 
-add_library(game-activity_static STATIC
-            ${GAMEACTIVITY_SRCS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/../src/common/system_utils.cpp
-            )
+add_library(game-activity_static STATIC ${GAMEACTIVITY_SRCS})
 
 set_target_properties(game-activity PROPERTIES
      LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/build )
