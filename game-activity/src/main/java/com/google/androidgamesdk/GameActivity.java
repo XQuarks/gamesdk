@@ -588,7 +588,9 @@ public class GameActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-      // TODO (b/187147952): allow to disable the usage of GameTextInput in GameActivity.
+      if (!mInputConnection.getSoftKeyboardActive()) {
+        return null;
+      }
       if (outAttrs != null) {
         GameTextInput.copyEditorInfo(mInputConnection.getEditorInfo(), outAttrs);
       }

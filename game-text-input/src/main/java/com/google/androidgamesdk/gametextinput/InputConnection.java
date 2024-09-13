@@ -118,6 +118,9 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     targetView.setOnKeyListener(this);
     // Apply EditorInfo settings
     this.setEditorInfo(settings.mEditorInfo);
+
+    ViewCompat.setOnApplyWindowInsetsListener(
+        targetView, (v, insets) -> onApplyWindowInsets(v, insets));
   }
 
   /**
@@ -146,12 +149,14 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    */
   public final void setSoftKeyboardActive(boolean active, int flags) {
     Log.d(TAG, "setSoftKeyboardActive, active: " + active);
+    this.mSoftKeyboardActive = active;
     if (active) {
       this.targetView.setFocusableInTouchMode(true);
       this.targetView.requestFocus();
       this.imm.showSoftInput(this.targetView, flags);
     } else {
       this.imm.hideSoftInputFromWindow(this.targetView.getWindowToken(), flags);
+      imm.restartInput(targetView);
     }
   }
 
@@ -229,6 +234,9 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
   @Override
   public boolean onKey(View view, int i, KeyEvent keyEvent) {
     Log.d(TAG, "onKey: " + keyEvent);
+    if (!getSoftKeyboardActive()) {
+      return false;
+    }
     // Don't call sendKeyEvent as it might produce an infinite loop.
     return processKeyEvent(keyEvent);
   }
@@ -517,7 +525,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    * @return this function should return original insets object unless it wants to modify insets.
    */
   public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-    Log.d(TAG, "onApplyWindowInsets" + this.isSoftwareKeyboardVisible());
+    Log.d(TAG, "onApplyWindowInsets: " + this.isSoftwareKeyboardVisible());
 
     Listener listener = this.listener;
     if (listener != null) {
@@ -530,9 +538,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     }
 
     this.mSoftKeyboardActive = visible;
-    if (!visible && VERSION.SDK_INT >= VERSION_CODES.O) {
-      this.targetView.clearFocus();
-    }
+    imm.restartInput(targetView);
 
     if (listener != null) {
       listener.onSoftwareKeyboardVisibilityChanged(visible);

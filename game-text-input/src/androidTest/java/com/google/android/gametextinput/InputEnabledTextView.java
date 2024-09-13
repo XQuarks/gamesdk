@@ -63,6 +63,9 @@ public class InputEnabledTextView extends View implements Listener {
 
   @Override
   public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+    if (!mInputConnection.getSoftKeyboardActive()) {
+      return null;
+    }
     if (outAttrs != null) {
       GameTextInput.copyEditorInfo(mInputConnection.getEditorInfo(), outAttrs);
     }
