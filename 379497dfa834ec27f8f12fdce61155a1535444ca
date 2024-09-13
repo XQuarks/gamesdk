@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "096fb6f9_7ab535e7",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-13T14:29:07Z",
+      "side": 1,
+      "message": "We decided to remove these tests for now as we don\u0027t have a reliable implementation of Backspace emulation for software keyboards.",
+      "parentUuid": "c43ec6bb_f6d0baa5",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf5aa30a_35c1d1f7",
         "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
         "patchSetId": 1
