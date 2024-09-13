@@ -54,6 +54,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcfcba31_a7d96a34",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-13T12:12:55Z",
+      "side": 1,
+      "message": "This will be custom function with branches which will not give us any signals about software keyboard del.",
+      "parentUuid": "602e47af_802aedc9",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf5aa30a_35c1d1f7",
@@ -67,6 +85,24 @@
       "writtenOn": "2024-09-12T19:31:32Z",
       "side": 1,
       "message": "Can this and the next function change the text? If it can, we should add stateUpdated() here.",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d65bca9e_535280f8",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-13T12:12:55Z",
+      "side": 1,
+      "message": "All those functions call endBatchEdit and we now call stateUpdate there",
+      "parentUuid": "bf5aa30a_35c1d1f7",
       "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
@@ -101,6 +137,24 @@
       "writtenOn": "2024-09-12T19:31:32Z",
       "side": 1,
       "message": "We produce a lot of spam, and in general it\u0027s better to keep as few debug log lines as possible. Remember that these lines work on all user devices. I leave this at your discretion.",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2771c0_22f7ef99",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-13T12:12:55Z",
+      "side": 1,
+      "message": "I will add if (DEBUG) for all those log messages in next CL",
+      "parentUuid": "3e96ba23_90e863df",
       "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
