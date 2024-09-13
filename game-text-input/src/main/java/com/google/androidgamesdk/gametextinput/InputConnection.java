@@ -48,95 +48,10 @@ import java.util.BitSet;
 @Keep
 public class InputConnection extends BaseInputConnection implements View.OnKeyListener {
   private static final String TAG = "gti.InputConnection";
-  // TODO: (b/183179971) We should react to most of these events rather than ignoring them? Plus
-  // there are others that should be ignored.
-  private static final int[] notInsertedKeyCodes = {
-      // Start of common game controller button keycodes
-      KeyEvent.KEYCODE_DPAD_CENTER,
-      KeyEvent.KEYCODE_DPAD_DOWN,
-      KeyEvent.KEYCODE_DPAD_UP,
-      KeyEvent.KEYCODE_DPAD_LEFT,
-      KeyEvent.KEYCODE_DPAD_RIGHT,
-      KeyEvent.KEYCODE_DPAD_DOWN_LEFT,
-      KeyEvent.KEYCODE_DPAD_UP_LEFT,
-      KeyEvent.KEYCODE_DPAD_UP_LEFT,
-      KeyEvent.KEYCODE_DPAD_UP_RIGHT,
-      KeyEvent.KEYCODE_BUTTON_A,
-      KeyEvent.KEYCODE_BUTTON_B,
-      KeyEvent.KEYCODE_BUTTON_X,
-      KeyEvent.KEYCODE_BUTTON_Y,
-      KeyEvent.KEYCODE_BUTTON_L1,
-      KeyEvent.KEYCODE_BUTTON_L2,
-      KeyEvent.KEYCODE_BUTTON_R1,
-      KeyEvent.KEYCODE_BUTTON_R2,
-      KeyEvent.KEYCODE_BUTTON_THUMBL,
-      KeyEvent.KEYCODE_BUTTON_THUMBR,
-      KeyEvent.KEYCODE_BUTTON_SELECT,
-      KeyEvent.KEYCODE_BUTTON_START,
-      KeyEvent.KEYCODE_BUTTON_MODE,
-      KeyEvent.KEYCODE_MEDIA_RECORD,
-      KeyEvent.KEYCODE_BUTTON_Z,
-      KeyEvent.KEYCODE_BUTTON_C,
-
-      // End of common game controller button keycodes
-      KeyEvent.KEYCODE_DEL,
-      KeyEvent.KEYCODE_FORWARD_DEL,
-      KeyEvent.KEYCODE_CTRL_RIGHT,
-      KeyEvent.KEYCODE_SHIFT_LEFT,
-      KeyEvent.KEYCODE_SHIFT_RIGHT,
-      KeyEvent.KEYCODE_BACK,
-      KeyEvent.KEYCODE_VOLUME_UP,
-      KeyEvent.KEYCODE_VOLUME_DOWN,
-      KeyEvent.KEYCODE_VOLUME_MUTE,
-      KeyEvent.KEYCODE_ALT_LEFT,
-      KeyEvent.KEYCODE_ALT_RIGHT,
-      KeyEvent.KEYCODE_CTRL_LEFT,
-      KeyEvent.KEYCODE_F1,
-      KeyEvent.KEYCODE_F10,
-      KeyEvent.KEYCODE_F11,
-      KeyEvent.KEYCODE_F12,
-      KeyEvent.KEYCODE_F2,
-      KeyEvent.KEYCODE_F3,
-      KeyEvent.KEYCODE_F4,
-      KeyEvent.KEYCODE_F5,
-      KeyEvent.KEYCODE_F6,
-      KeyEvent.KEYCODE_F7,
-      KeyEvent.KEYCODE_F8,
-      KeyEvent.KEYCODE_F9,
-      KeyEvent.KEYCODE_INSERT,
-      KeyEvent.KEYCODE_MOVE_HOME,
-      KeyEvent.KEYCODE_MOVE_END,
-      KeyEvent.KEYCODE_PAGE_UP,
-      KeyEvent.KEYCODE_PAGE_DOWN,
-      KeyEvent.KEYCODE_UNKNOWN,
-      KeyEvent.KEYCODE_SEARCH,
-
-      // all media keys
-      KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
-      KeyEvent.KEYCODE_MEDIA_STOP,
-      KeyEvent.KEYCODE_MEDIA_NEXT,
-      KeyEvent.KEYCODE_MEDIA_PREVIOUS,
-      KeyEvent.KEYCODE_MEDIA_REWIND,
-      KeyEvent.KEYCODE_MEDIA_FAST_FORWARD,
-      KeyEvent.KEYCODE_MEDIA_PLAY,
-      KeyEvent.KEYCODE_MEDIA_PAUSE,
-      KeyEvent.KEYCODE_MEDIA_CLOSE,
-      KeyEvent.KEYCODE_MEDIA_EJECT,
-      KeyEvent.KEYCODE_MEDIA_RECORD,
-      KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK,
-      KeyEvent.KEYCODE_MEDIA_TOP_MENU,
-      KeyEvent.KEYCODE_TV_MEDIA_CONTEXT_MENU,
-      KeyEvent.KEYCODE_MEDIA_SKIP_FORWARD,
-      KeyEvent.KEYCODE_MEDIA_SKIP_BACKWARD,
-      KeyEvent.KEYCODE_MEDIA_STEP_FORWARD,
-      KeyEvent.KEYCODE_MEDIA_STEP_BACKWARD,
-  };
   private final InputMethodManager imm;
   private final View targetView;
   private final Settings settings;
   private final Editable mEditable;
-  // The characters we should not insert into a string.
-  private final BitSet dontInsertChars;
   private Listener listener;
   private boolean mSoftKeyboardActive;
 
@@ -197,11 +112,6 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     } else {
       this.imm = (InputMethodManager) imm;
       this.mEditable = (Editable) (new SpannableStringBuilder());
-    }
-    // BitSet.valueOf is only available in API 30 so insert manually.
-    dontInsertChars = new BitSet();
-    for (int c : notInsertedKeyCodes) {
-      dontInsertChars.set(c);
     }
     // Listen for insets changes
     WindowCompat.setDecorFitsSystemWindows(((Activity) targetView.getContext()).getWindow(), false);
@@ -549,7 +459,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     }
 
     int code = event.getKeyCode();
-    if (!dontInsertChars.get(code)) {
+    if (event.getUnicodeChar() != 0) {
       String charsToInsert = Character.toString((char) event.getUnicodeChar());
       this.mEditable.insert(selection.first, (CharSequence) charsToInsert);
       int length = this.mEditable.length();
