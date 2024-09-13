@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d19a5741_b3c9a2c5",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-13T11:33:52Z",
+      "side": 1,
+      "message": "Please don\u0027t remove this important comment which explains how to avoid race conditions.",
+      "revId": "330a2a6f9e6b8f9db16638053908ae6842421d22",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
