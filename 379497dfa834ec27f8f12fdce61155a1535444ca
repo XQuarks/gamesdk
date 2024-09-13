@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "602e47af_802aedc9",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-13T09:48:47Z",
+      "side": 1,
+      "message": "Please fix pressDel() function, this would fix all the tests. Do what GBoard does when you click Del.",
+      "parentUuid": "58302bed_5f3ddc7a",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf5aa30a_35c1d1f7",
         "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
         "patchSetId": 1
