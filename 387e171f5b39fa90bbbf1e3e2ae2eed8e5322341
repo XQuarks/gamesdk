@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0119f000_8c1b5892",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-13T13:18:08Z",
+      "side": 1,
+      "message": "This CL doesn\u0027t change .clang-format, do you want to update the description?",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "387e171f5b39fa90bbbf1e3e2ae2eed8e5322341",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
