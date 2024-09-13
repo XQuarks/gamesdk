@@ -623,6 +623,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
   public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
     Log.d(TAG, "onApplyWindowInsets" + this.isSoftwareKeyboardVisible());
 
+    Listener listener = this.listener;
     if (listener != null) {
       listener.onImeInsetsChanged(insets.getInsets(WindowInsetsCompat.Type.ime()));
     }
@@ -691,6 +692,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    */
   @Override
   public boolean performEditorAction(int action) {
+    Listener listener = this.listener;
     if (listener != null) {
       listener.onEditorAction(action);
       return true;
