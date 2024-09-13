@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c43ec6bb_f6d0baa5",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-13T12:55:56Z",
+      "side": 1,
+      "message": "Please don\u0027t mark this comment as resolved until the issue is actually resolved. It\u0027s not ok to just delete 5 tests. All we need is to fix pressDel() function.",
+      "parentUuid": "bcfcba31_a7d96a34",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf5aa30a_35c1d1f7",
         "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
         "patchSetId": 1
@@ -120,6 +138,24 @@
       "writtenOn": "2024-09-12T15:14:50Z",
       "side": 1,
       "message": "Code-style fixes should be done in a separate CL.",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ddd6453_783b18d4",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-09-13T12:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8e72acc_8fb65596",
       "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
