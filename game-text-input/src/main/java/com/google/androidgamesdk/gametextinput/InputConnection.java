@@ -17,8 +17,6 @@ package com.google.androidgamesdk.gametextinput;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -53,7 +51,6 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
   private final Settings settings;
   private final Editable mEditable;
   private Listener listener;
-  private boolean mSoftKeyboardActive;
 
   /*
    * This class filters EOL characters from the input. For details of how InputFilter.filter
@@ -126,15 +123,6 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    */
   public void restartInput() {
     this.imm.restartInput(targetView);
-  }
-
-  /**
-   * Get whether the soft keyboard is visible.
-   *
-   * @return true if the soft keyboard is visible, false otherwise
-   */
-  public final boolean getSoftKeyboardActive() {
-    return this.mSoftKeyboardActive;
   }
 
   /**
@@ -507,38 +495,6 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     if (listener != null) {
       listener.stateChanged(state, /*dismissed=*/false);
     }
-  }
-
-  /**
-   * This function is called whenever software keyboard (IME) changes its visible dimensions.
-   *
-   * @param v main application View
-   * @param insets insets of the software keyboard (IME)
-   * @return this function should return original insets object unless it wants to modify insets.
-   */
-  public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-    Log.d(TAG, "onApplyWindowInsets" + this.isSoftwareKeyboardVisible());
-
-    Listener listener = this.listener;
-    if (listener != null) {
-      listener.onImeInsetsChanged(insets.getInsets(WindowInsetsCompat.Type.ime()));
-    }
-
-    boolean visible = this.isSoftwareKeyboardVisible();
-    if (visible == this.mSoftKeyboardActive) {
-      return insets;
-    }
-
-    this.mSoftKeyboardActive = visible;
-    if (!visible && VERSION.SDK_INT >= VERSION_CODES.O) {
-      this.targetView.clearFocus();
-    }
-
-    if (listener != null) {
-      listener.onSoftwareKeyboardVisibilityChanged(visible);
-    }
-
-    return insets;
   }
 
   /**
