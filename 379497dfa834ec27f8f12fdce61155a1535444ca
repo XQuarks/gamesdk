@@ -108,6 +108,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b705be2_6b76bd0b",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-13T14:32:08Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "096fb6f9_7ab535e7",
+      "revId": "379497dfa834ec27f8f12fdce61155a1535444ca",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf5aa30a_35c1d1f7",
