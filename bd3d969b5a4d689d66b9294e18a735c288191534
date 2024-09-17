@@ -3,6 +3,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a7f4cc5_2dc0bba2",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-17T18:35:25Z",
+      "side": 1,
+      "message": "This code is not expected to be run for those key events",
+      "range": {
+        "startLine": 511,
+        "startChar": 8,
+        "endLine": 511,
+        "endChar": 65
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "de834878_bbea0fff",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+              "range": {
+                "startLine": 509,
+                "startChar": 0,
+                "endLine": 514,
+                "endChar": 0
+              },
+              "replacement": "      if (event.getKeyCode() \u003d\u003d KeyEvent.KEYCODE_DEL \u0026\u0026 selection.first \u003e 0) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb3ecbb4_e5979478",
         "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
         "patchSetId": 2
