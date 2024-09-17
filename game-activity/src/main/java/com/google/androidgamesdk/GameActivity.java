@@ -343,10 +343,14 @@ public class GameActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     byte[] nativeSavedState =
         savedInstanceState != null ? savedInstanceState.getByteArray(KEY_NATIVE_SAVED_STATE) : null;
-
+    File extDir = null;
+    File[] extPaths = getExternalFilesDirs(null);
+    if (extPaths != null && extPaths.length > 0) {
+      extDir = extPaths[0];
+    }
     mNativeHandle = initializeNativeCode(getAbsolutePath(getFilesDir()),
-        getAbsolutePath(getObbDir()), getAbsolutePath(getExternalFilesDir(null)), getAssets(),
-        nativeSavedState, getResources().getConfiguration());
+        getAbsolutePath(getObbDir()), getAbsolutePath(extDir), getAssets(), nativeSavedState,
+        getResources().getConfiguration());
 
     if (mNativeHandle == 0) {
       throw new UnsatisfiedLinkError(
