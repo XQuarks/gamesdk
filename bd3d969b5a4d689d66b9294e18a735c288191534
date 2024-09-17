@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef9c65ac_5dcd479c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2024-09-17T20:10:40Z",
+      "side": 1,
+      "message": "Do we need to handle multibyte characters using codePointCount?",
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a7f4cc5_2dc0bba2",
         "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
         "patchSetId": 2
