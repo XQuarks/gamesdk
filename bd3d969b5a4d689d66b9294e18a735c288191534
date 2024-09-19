@@ -18,6 +18,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a921ba8c_c4fc16f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to; I couldn\u0027t find any documentation regarding multibyte characters in BaseInputConnection. The rest of the code also moves the selection by one every time delete is pressed.",
+      "parentUuid": "ef9c65ac_5dcd479c",
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a7f4cc5_2dc0bba2",
@@ -59,6 +77,30 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6c4c446_1ecae03c",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "Moved the left/right if else block to the beginning of this logic.",
+      "parentUuid": "6a7f4cc5_2dc0bba2",
+      "range": {
+        "startLine": 511,
+        "startChar": 8,
+        "endLine": 511,
+        "endChar": 65
+      },
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb3ecbb4_e5979478",
@@ -76,6 +118,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d1ac98a_df21024e",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "These are automatically handled by BaseInputConnection\u0027s setSelection",
+      "parentUuid": "fb3ecbb4_e5979478",
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb26082a_b53a6c66",
@@ -89,6 +149,24 @@
       "writtenOn": "2024-09-12T15:00:18Z",
       "side": 1,
       "message": "What if cursor is at the end of the string?",
+      "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f882821f_e9142223",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "These are automatically handled by BaseInputConnection\u0027s setSelection",
+      "parentUuid": "bb26082a_b53a6c66",
       "revId": "bd3d969b5a4d689d66b9294e18a735c288191534",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }

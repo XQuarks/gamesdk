@@ -18,6 +18,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd537b27_de77e04b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8315f65c_589cdd4a",
+      "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8bba564_91f15ae1",
@@ -35,6 +53,24 @@
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab0ed3b2_b01abcf7",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8bba564_91f15ae1",
+      "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a536b8f0_ab9c9c78",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-09-12T14:41:23Z",
       "side": 1,
       "message": "Do we want to also handle End/Home keys?",
+      "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f701ef4f_f619faea",
+        "filename": "game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/InputConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2024-09-19T12:14:34Z",
+      "side": 1,
+      "message": "Let\u0027s keep this cl to Left/Right since that was the request from the original bug; most soft keyboards don\u0027t have home/end anyway.",
+      "parentUuid": "a536b8f0_ab9c9c78",
       "revId": "ba7ea155116459f6532a864390e4c46866c5ac25",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
