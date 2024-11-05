@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4541b6_2049e6f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2024-11-05T11:32:11Z",
+      "side": 1,
+      "message": "What is the purpose of these empty CLs?",
+      "revId": "0ddf77ac66f6734831e38cf68a1b4cbcb6c793e5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
