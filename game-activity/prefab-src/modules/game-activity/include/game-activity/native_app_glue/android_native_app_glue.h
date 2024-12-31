@@ -27,6 +27,7 @@
 #include <poll.h>
 #include <pthread.h>
 #include <sched.h>
+#include <stdint.h>
 
 #include "game-activity/GameActivity.h"
 
@@ -279,7 +280,7 @@ struct android_app {
  * Looper ID of commands coming from the app's main thread, an AInputQueue or
  * user-defined sources.
  */
-enum NativeAppGlueLooperId {
+enum NativeAppGlueLooperId : int8_t {
   /**
    * Looper data ID of commands coming from the app's main thread, which
    * is returned as an identifier from ALooper_pollOnce().  The data for this
@@ -307,7 +308,7 @@ enum NativeAppGlueLooperId {
  * Values from 0 to 127 are reserved for this library; values from -128 to -1
  * can be used for custom user's events.
  */
-enum NativeAppGlueAppCmd {
+enum NativeAppGlueAppCmd : int8_t {
   /**
    * Unused. Reserved for future use when usage of AInputQueue will be
    * supported.
