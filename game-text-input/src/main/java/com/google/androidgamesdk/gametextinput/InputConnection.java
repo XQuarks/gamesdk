@@ -15,6 +15,9 @@
  */
 package com.google.androidgamesdk.gametextinput;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_NONE;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_UNSPECIFIED;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build.VERSION;
@@ -428,7 +431,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
         && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER
             || event.getKeyCode() == KeyEvent.KEYCODE_NUMPAD_ENTER)
         && event.hasNoModifiers()) {
-      this.performEditorAction(settings.mEditorInfo.actionId);
+      sendEditorAction(settings.mEditorInfo.actionId);
       return true;
     }
     if (event.getAction() != 0) {
@@ -609,12 +612,25 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
   @Override
   public boolean performEditorAction(int action) {
     Log.d(TAG, "performEditorAction, action=" + action);
+    if (action == IME_ACTION_UNSPECIFIED) {
+      // Super emulates Enter key press/release
+      return super.performEditorAction(action);
+    }
+    return sendEditorAction(action);
+  }
+
+  /**
+   * Delivers editor action to listener
+   *
+   * @param action Action code, either one from EditorInfo.imeOptions or a custom one.
+   * @return Returns true on success, false if the input connection is no longer valid.
+   */
+  private boolean sendEditorAction(int action) {
     Listener listener = this.listener;
     if (listener != null) {
       listener.onEditorAction(action);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 }
