@@ -161,11 +161,15 @@ SwappyCommon::SwappyCommon(JNIEnv* env, jobject jactivity)
     mChoreographerFilter = std::make_unique<ChoreographerFilter>(
         mCommonSettings.refreshPeriod,
         mCommonSettings.sfVsyncOffset - mCommonSettings.appVsyncOffset,
-        [this]() { return wakeClient(); });
+        [this](std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
+            return wakeClient(sfToVsyncDelay);
+        });
 
     mChoreographerThread = ChoreographerThread::createChoreographerThread(
         ChoreographerThread::Type::Swappy, mJVM, jactivity,
-        [this] { mChoreographerFilter->onChoreographer(); },
+        [this](std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
+            mChoreographerFilter->onChoreographer(sfToVsyncDelay);
+        },
         [this] { onRefreshRateChanged(); }, mCommonSettings.sdkVersion);
     if (!mChoreographerThread->isInitialized()) {
         SWAPPY_LOGE("failed to initialize ChoreographerThread");
@@ -208,12 +212,16 @@ SwappyCommon::SwappyCommon(const SwappyCommonSettings& settings)
     mChoreographerFilter = std::make_unique<ChoreographerFilter>(
         mCommonSettings.refreshPeriod,
         mCommonSettings.sfVsyncOffset - mCommonSettings.appVsyncOffset,
-        [this]() { return wakeClient(); });
+        [this](std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
+            return wakeClient(sfToVsyncDelay);
+        });
     mUsingExternalChoreographer = true;
     mChoreographerThread = ChoreographerThread::createChoreographerThread(
         ChoreographerThread::Type::App, nullptr, nullptr,
-        [this] { mChoreographerFilter->onChoreographer(); }, [] {},
-        mCommonSettings.sdkVersion);
+        [this](std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
+            mChoreographerFilter->onChoreographer(sfToVsyncDelay);
+        },
+        [] {}, mCommonSettings.sdkVersion);
 
     Settings::getInstance()->addListener([this]() { onSettingsChanged(); });
     Settings::getInstance()->setDisplayTimings({mCommonSettings.refreshPeriod,
@@ -266,16 +274,18 @@ void SwappyCommon::onRefreshRateChanged() {
                 1e9f / settings.refreshPeriod.count());
 }
 
-nanoseconds SwappyCommon::wakeClient() {
+nanoseconds SwappyCommon::wakeClient(
+    std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
     std::lock_guard<std::mutex> lock(mWaitingMutex);
     ++mCurrentFrame;
-
     // We're attempting to align with SurfaceFlinger's vsync, but it's always
     // better to be a little late than a little early (since a little early
     // could cause our frame to be picked up prematurely), so we pad by an
     // additional millisecond.
     mCurrentFrameTimestamp =
         std::chrono::steady_clock::now() + mMeasuredSwapDuration.load() + 1ms;
+
+    mSfToVsyncDelay = sfToVsyncDelay;
     mWaitingCondition.notify_all();
     return mMeasuredSwapDuration;
 }
@@ -287,7 +297,9 @@ void SwappyCommon::onChoreographer(int64_t frameTimeNanos) {
         mUsingExternalChoreographer = true;
         mChoreographerThread = ChoreographerThread::createChoreographerThread(
             ChoreographerThread::Type::App, nullptr, nullptr,
-            [this] { mChoreographerFilter->onChoreographer(); },
+            [this](std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
+                mChoreographerFilter->onChoreographer(sfToVsyncDelay);
+            },
             [this] { onRefreshRateChanged(); }, mCommonSettings.sdkVersion);
     }
 
@@ -882,10 +894,12 @@ void SwappyCommon::startFrame() {
 
     int32_t currentFrame;
     std::chrono::steady_clock::time_point currentFrameTimestamp;
+    std::optional<std::chrono::nanoseconds> sfToVsyncDelay;
     {
         std::unique_lock<std::mutex> lock(mWaitingMutex);
         currentFrame = mCurrentFrame;
         currentFrameTimestamp = mCurrentFrameTimestamp;
+        sfToVsyncDelay = mSfToVsyncDelay;
     }
 
     // Whether to add a wait to fix buffer stuffing.
@@ -897,6 +911,9 @@ void SwappyCommon::startFrame() {
     if (mBufferStuffingFixWait > 0 && mLastLatencyRecorded) {
         int32_t lastLatency = mLastLatencyRecorded();
         int expectedLatency = mAutoSwapInterval * intervals;
+        if (sfToVsyncDelay) {
+            expectedLatency += *sfToVsyncDelay / mCommonSettings.refreshPeriod;
+        }
         TRACE_INT("ExpectedLatency", expectedLatency);
         if (mBufferStuffingFixCounter == 0) {
             if (lastLatency > expectedLatency) {
@@ -916,6 +933,14 @@ void SwappyCommon::startFrame() {
     }
     mTargetFrame = currentFrame + mAutoSwapInterval;
     if (waitFrame) mTargetFrame += 1;
+
+    // If available, use the SF to Vsync delay to target the specific
+    // vsync instead of guessing when the vsync is going to be
+    if (sfToVsyncDelay) {
+        currentFrameTimestamp += *sfToVsyncDelay -
+                                 mCommonSettings.refreshPeriod / 2 -
+                                 mMeasuredSwapDuration.load() - 1ms;
+    }
 
     // We compute the target time as now
     //   + the time the buffer will be on the GPU and in the queue to the

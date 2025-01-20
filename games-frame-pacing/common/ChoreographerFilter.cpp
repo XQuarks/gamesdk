@@ -103,6 +103,7 @@ class Timer {
     time_point mBaseTime = std::chrono::steady_clock::now();
 
     time_point mLastTimestamp = std::chrono::steady_clock::now();
+    std::optional<std::chrono::nanoseconds> mSfToVsyncDelay;
     int32_t mRepeatCount = 0;
 };
 
@@ -128,9 +129,11 @@ ChoreographerFilter::~ChoreographerFilter() {
     terminateThreadsLocked();
 }
 
-void ChoreographerFilter::onChoreographer() {
+void ChoreographerFilter::onChoreographer(
+    std::optional<std::chrono::nanoseconds> sfToVsyncDelay) {
     std::lock_guard<std::mutex> lock(mMutex);
     mLastTimestamp = std::chrono::steady_clock::now();
+    mSfToVsyncDelay = sfToVsyncDelay;
     ++mSequenceNumber;
     mCondition.notify_all();
 }
@@ -228,7 +231,7 @@ void ChoreographerFilter::threadMain(bool useAffinity, int32_t thread) {
             if (now - mLastWorkRun > mRefreshPeriod / 2) {
                 // Assume we got here first and there's work to do
                 gamesdk::ScopedTrace trace("doWork");
-                mWorkDuration = mDoWork();
+                mWorkDuration = mDoWork(mSfToVsyncDelay);
                 mLastWorkRun = now;
             }
         }

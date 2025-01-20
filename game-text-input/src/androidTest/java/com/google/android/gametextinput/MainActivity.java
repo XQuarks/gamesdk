@@ -15,6 +15,7 @@
  */
 package com.google.androidgamesdk.gametextinput.test;
 
+<<<<<<< HEAD   (c61b62 Merge cherrypicks of ['android-review.googlesource.com/31541)
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -57,4 +58,46 @@ public class MainActivity extends AppCompatActivity {
     public void enableSoftKeyboard() {
       inputEnabledTextView.enableSoftKeyboard();
     }
+||||||| BASE
+=======
+import android.os.Bundle;
+import android.text.InputType;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.androidgamesdk.gametextinput.test.R;
+
+// import com.google.androidgamesdk.gametextinput.InputConnection;
+
+public class MainActivity extends AppCompatActivity {
+  InputEnabledTextView inputEnabledTextView;
+  TextView displayedText;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    inputEnabledTextView = (InputEnabledTextView) findViewById(R.id.input_enabled_text_view);
+    assert (inputEnabledTextView != null);
+
+    displayedText = (TextView) findViewById(R.id.displayed_text);
+    assert (displayedText != null);
+
+    inputEnabledTextView.createInputConnection(InputType.TYPE_CLASS_TEXT, this);
+  }
+
+  public void setDisplayedText(String text) {
+    displayedText.setText(text);
+  }
+
+  public String getTestString() {
+    return "abc";
+  }
+
+  public void enableSoftKeyboard() {
+    inputEnabledTextView.enableSoftKeyboard();
+  }
+>>>>>>> BRANCH (f0eaf3 Upgrade GameActivity and GameTextInput to release candidate.)
 }

@@ -7,9 +7,17 @@
 #
 AGDK            NA                      NA                      2022.1.1 alpha01
 swappy          games-frame-pacing      games-frame-pacing      2.2.0    alpha01
-tuningfork      games-performance-tuner games-performance-tuner 2.0.0    beta01
+tuningfork      games-performance-tuner games-performance-tuner 2.1.0    alpha01
 oboe            oboe                    None                    1.0.1    alpha01
+<<<<<<< HEAD   (c61b62 Merge cherrypicks of ['android-review.googlesource.com/31541)
 game_activity   games-activity          game-activity           3.0.4
 game_text_input games-text-input        game-text-input         3.0.4
+||||||| BASE
+game_activity   games-activity          game-activity           3.0.0    rc01
+game_text_input games-text-input        game-text-input         3.0.0    rc01
+=======
+game_activity   games-activity          game-activity           4.0.0    rc01
+game_text_input games-text-input        game-text-input         4.0.0    rc01
+>>>>>>> BRANCH (f0eaf3 Upgrade GameActivity and GameTextInput to release candidate.)
 paddleboat      games-controller        games-controller        2.1.0    alpha01
 memory_advice   games-memory-advice     games-memory-advice     2.1.0    beta01

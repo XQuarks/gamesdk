@@ -17,17 +17,15 @@
 #ifndef agdktunnel_ascii_art_inl
 #define agdktunnel_ascii_art_inl
 
-#define ART_LIFE \
-    "   +-+   +-+  \n" \
-    "  /   ` /   ` \n" \
-    " +     +     +\n" \
-    "  `         / \n" \
-    "   `       /  \n" \
-    "    `     /   \n" \
-    "     `   /    \n" \
-    "      ` /     \n" \
-    "       +      \n"
-
+#define ART_LIFE     \
+  "   +-+   +-+  \n" \
+  "  /   ` /   ` \n" \
+  " +     +     +\n" \
+  "  `         / \n" \
+  "   `       /  \n" \
+  "    `     /   \n" \
+  "     `   /    \n" \
+  "      ` /     \n" \
+  "       +      \n"
 
 #endif
-

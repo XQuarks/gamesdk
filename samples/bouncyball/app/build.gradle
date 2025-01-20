@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.prefabulated.swappy"
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 35
         versionCode 4
         versionName "1.1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
