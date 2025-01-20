@@ -18,11 +18,11 @@ package com.google.androidgamesdk;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static android.view.inputmethod.EditorInfo.IME_FLAG_NO_FULLSCREEN;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,8 +33,8 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
@@ -47,18 +47,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-import com.google.androidgamesdk.gametextinput.InputConnection;
 import com.google.androidgamesdk.gametextinput.GameTextInput;
+import com.google.androidgamesdk.gametextinput.InputConnection;
 import com.google.androidgamesdk.gametextinput.Listener;
 import com.google.androidgamesdk.gametextinput.Settings;
 import com.google.androidgamesdk.gametextinput.State;
 import dalvik.system.BaseDexClassLoader;
 import java.io.File;
 
-public class GameActivity
-    extends AppCompatActivity
-    implements SurfaceHolder.Callback2, Listener, OnApplyWindowInsetsListener,
-        OnGlobalLayoutListener {
+public class GameActivity extends AppCompatActivity implements SurfaceHolder.Callback2, Listener,
+                                                               OnApplyWindowInsetsListener,
+                                                               OnGlobalLayoutListener {
   private static final String LOG_TAG = "GameActivity";
 
   private static final String DEFAULT_NATIVE_LIB_NAME = "main";
@@ -85,32 +84,31 @@ public class GameActivity
   protected InputEnabledSurfaceView mSurfaceView;
 
   protected boolean processMotionEvent(MotionEvent event) {
-      int action = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) ? event.getActionButton() : 0;
-      int cls = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ? event.getClassification() : 0;
+    int action = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) ? event.getActionButton() : 0;
+    int cls = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ? event.getClassification() : 0;
 
-      return onTouchEventNative(mNativeHandle, event, event.getPointerCount(),
-          event.getHistorySize(), event.getDeviceId(), event.getSource(), event.getAction(),
-          event.getEventTime(), event.getDownTime(), event.getFlags(), event.getMetaState(), action,
-          event.getButtonState(), cls, event.getEdgeFlags(), event.getXPrecision(),
-          event.getYPrecision());
+    return onTouchEventNative(mNativeHandle, event, event.getPointerCount(), event.getHistorySize(),
+        event.getDeviceId(), event.getSource(), event.getAction(), event.getEventTime(),
+        event.getDownTime(), event.getFlags(), event.getMetaState(), action, event.getButtonState(),
+        cls, event.getEdgeFlags(), event.getXPrecision(), event.getYPrecision());
   }
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-      if (processMotionEvent(event)) {
-          return true;
-      } else {
-          return super.onTouchEvent(event);
-      }
+    if (processMotionEvent(event)) {
+      return true;
+    } else {
+      return super.onTouchEvent(event);
+    }
   }
 
   @Override
   public boolean onGenericMotionEvent(MotionEvent event) {
-      if (processMotionEvent(event)) {
-          return true;
-      } else {
-          return super.onGenericMotionEvent(event);
-      }
+    if (processMotionEvent(event)) {
+      return true;
+    } else {
+      return super.onGenericMotionEvent(event);
+    }
   }
 
   @Override
@@ -143,24 +141,24 @@ public class GameActivity
     int w = mSurfaceView.getWidth();
     int h = mSurfaceView.getHeight();
 
-   if (mLocation[0] != mLastContentX || mLocation[1] != mLastContentY
-           || w != mLastContentWidth || h != mLastContentHeight)
-    {
+    if (mLocation[0] != mLastContentX || mLocation[1] != mLastContentY || w != mLastContentWidth
+        || h != mLastContentHeight) {
       mLastContentX = mLocation[0];
       mLastContentY = mLocation[1];
       mLastContentWidth = w;
       mLastContentHeight = h;
 
       if (!mDestroyed) {
-        onContentRectChangedNative(mNativeHandle, mLastContentX, mLastContentY,
-                mLastContentWidth, mLastContentHeight);
+        onContentRectChangedNative(
+            mNativeHandle, mLastContentX, mLastContentY, mLastContentWidth, mLastContentHeight);
       }
     }
   }
 
   // Called when we want to set the input state, e.g. before first showing the IME
   public void setTextInputState(State s) {
-    if (mSurfaceView == null) return;
+    if (mSurfaceView == null)
+      return;
 
     if (mSurfaceView.mInputConnection == null)
       Log.w(LOG_TAG, "No input connection has been set yet");
@@ -177,7 +175,6 @@ public class GameActivity
   protected int mLastContentY;
   protected int mLastContentWidth;
   protected int mLastContentHeight;
-
 
   protected boolean mDestroyed;
 
@@ -284,7 +281,6 @@ public class GameActivity
 
     // Listen for insets changes
     ViewCompat.setOnApplyWindowInsetsListener(mSurfaceView, this);
-
   }
 
   /**
@@ -335,23 +331,26 @@ public class GameActivity
       // Load the native library so that native functions are registered, even if GameActivity
       // is not sub-classing a Java activity that uses System.loadLibrary(<libname>).
       System.loadLibrary(libname);
-    }
-    else if (!libname.equals(DEFAULT_NATIVE_LIB_NAME)) {
-      throw new IllegalArgumentException("unable to find native library " + fullLibname +
-        " using classloader: " + classLoader.toString());
+    } else if (!libname.equals(DEFAULT_NATIVE_LIB_NAME)) {
+      throw new IllegalArgumentException("unable to find native library " + fullLibname
+          + " using classloader: " + classLoader.toString());
     } else {
       // Assume the application already loads the library explicitly.
       Log.i(LOG_TAG,
-        "Application should have loaded the native library " + fullLibname +
-        " explicitly by now. ");
+          "Application should have loaded the native library " + fullLibname
+              + " explicitly by now. ");
     }
 
     byte[] nativeSavedState =
         savedInstanceState != null ? savedInstanceState.getByteArray(KEY_NATIVE_SAVED_STATE) : null;
-
+    File extDir = null;
+    File[] extPaths = getExternalFilesDirs(null);
+    if (extPaths != null && extPaths.length > 0) {
+      extDir = extPaths[0];
+    }
     mNativeHandle = initializeNativeCode(getAbsolutePath(getFilesDir()),
-        getAbsolutePath(getObbDir()), getAbsolutePath(getExternalFilesDir(null)), getAssets(),
-        nativeSavedState, getResources().getConfiguration());
+        getAbsolutePath(getObbDir()), getAbsolutePath(extDir), getAssets(), nativeSavedState,
+        getResources().getConfiguration());
 
     if (mNativeHandle == 0) {
       throw new UnsatisfiedLinkError(
@@ -542,7 +541,7 @@ public class GameActivity
    * See https://developer.android.com/reference/android/view/inputmethod/EditorInfo.
    */
   public EditorInfo getImeEditorInfo() {
-    if (imeEditorInfo==null) {
+    if (imeEditorInfo == null) {
       imeEditorInfo = new EditorInfo();
       // Provide safe defaults here.
       imeEditorInfo.inputType = InputType.TYPE_CLASS_TEXT;
@@ -579,14 +578,13 @@ public class GameActivity
   }
 
   protected class InputEnabledSurfaceView extends SurfaceView {
-
     public InputEnabledSurfaceView(GameActivity context) {
       super(context);
       EditorInfo editorInfo = context.getImeEditorInfo();
       mInputConnection = new InputConnection(context, this,
           new Settings(editorInfo,
               // Handle key events for InputType.TYPE_NULL:
-              /*forwardKeyEvents=*/editorInfo.inputType==InputType.TYPE_NULL))
+              /*forwardKeyEvents=*/editorInfo.inputType == InputType.TYPE_NULL))
                              .setListener(context);
     }
 
@@ -594,7 +592,9 @@ public class GameActivity
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-      // TODO (b/187147952): allow to disable the usage of GameTextInput in GameActivity.
+      if (!mInputConnection.getSoftKeyboardActive()) {
+        return null;
+      }
       if (outAttrs != null) {
         GameTextInput.copyEditorInfo(mInputConnection.getEditorInfo(), outAttrs);
       }

@@ -14,15 +14,14 @@
 
 #pragma once
 
-#include <string>
+#include <google/protobuf/compiler/importer.h>
+#include <google/protobuf/dynamic_message.h>
+
 #include <map>
 #include <memory>
-
-#include <google/protobuf/dynamic_message.h>
-#include <google/protobuf/compiler/importer.h>
+#include <string>
 
 #include "androidfw/ZipFileRO.h"
-
 #include "apk_errors.h"
 
 namespace tuningfork {
@@ -74,11 +73,9 @@ class ApkValidator {
                        const std::vector<int>& def_ann_enum_size);
   int ValidateDevFidelityParams();
   const pb::Descriptor* FindMessageIgnoringScope(
-      const pb::FileDescriptor* fdesc,
-      const std::string& name);
+      const pb::FileDescriptor* fdesc, const std::string& name);
   void DebugFileDesc(const pb::FileDescriptor* fdesc);
   void DebugDesc(const pb::Descriptor* desc);
-
 };
 
-}
+}  // namespace tuningfork

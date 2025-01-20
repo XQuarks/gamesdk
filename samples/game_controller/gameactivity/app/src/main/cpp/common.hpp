@@ -18,22 +18,33 @@
 
 #include <EGL/egl.h>
 #include <GLES3/gl3.h>
-#include <jni.h>
-#include <errno.h>
-#include <android/sensor.h>
 #include <android/log.h>
-#include "game-activity/native_app_glue/android_native_app_glue.h"
-#include <cstring>
-#include <unistd.h>
+#include <android/sensor.h>
+#include <errno.h>
+#include <jni.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+#include <cstring>
+
+#include "game-activity/native_app_glue/android_native_app_glue.h"
 
 #define LOG_TAG "GameControllerSample"
 #include "Log.h"
-#define ABORT_GAME { ALOGE("*** GAME ABORTING."); *((volatile char*)0) = 'a'; }
+#define ABORT_GAME               \
+  {                              \
+    ALOGE("*** GAME ABORTING."); \
+    *((volatile char*)0) = 'a';  \
+  }
 #define DEBUG_BLIP ALOGI("[ BLIP ]: %s:%d", __FILE__, __LINE__)
 
-#define MY_ASSERT(cond) { if (!(cond)) { ALOGE("ASSERTION FAILED: %s", #cond); \
-   ABORT_GAME; } }
+#define MY_ASSERT(cond)                     \
+  {                                         \
+    if (!(cond)) {                          \
+      ALOGE("ASSERTION FAILED: %s", #cond); \
+      ABORT_GAME;                           \
+    }                                       \
+  }
 
 #define BUFFER_OFFSET(i) ((char*)NULL + (i))
 

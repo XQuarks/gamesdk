@@ -16,7 +16,9 @@ class BuildInfoFile {
         val projectZipPath: String,
         val groupIdRequiresSameVersion: Boolean = false,
         val dependencies: List<Dependency> = arrayListOf(),
-        val checks: List<Check> = arrayListOf()
+        val checks: List<Check> = arrayListOf(),
+        // This is used by Jetpad, and should always be "gamesdk-full" unless the target changes
+        val target: String = "gamesdk-full",
     ) {
         data class Dependency(
             val groupId: String,

@@ -15,6 +15,7 @@ package com.google.android.games.paddleboat;
 
 import android.os.Build;
 import android.view.InputDevice;
+import android.view.MotionEvent;
 
 import java.util.List;
 
@@ -66,8 +67,11 @@ public class GameControllerInfo {
         }
 
         mGameControllerNameString = inputDevice.getName();
-        EnumerateAxis(inputDevice);
+        // Enumerate the info array before the axis to set
+        // the flags that tell us if we need to manually add the
+        // pressure axis
         EnumerateInfoArray(inputDevice);
+        EnumerateAxis(inputDevice);
     }
 
     public GameControllerListener GetListener() {
@@ -132,6 +136,23 @@ public class GameControllerInfo {
                 }
             }
         }
+        // Game controller touchpads have a button, which uses the pressure axis, register
+        // the pressure axis if the game controller reports a mouse class
+        if ((GetGameControllerFlags() & GameControllerManager.DEVICEFLAG_VIRTUAL_MOUSE) != 0) {
+            int axisIndex = MotionEvent.AXIS_PRESSURE;
+            if (axisIndex <= AXIS_COUNT_LOW) {
+                mGameControllerDeviceInfoArray[DEVICEINFO_INDEX_AXISBITS_LOW] |=
+                        (1 << axisIndex);
+            } else {
+                mGameControllerDeviceInfoArray[DEVICEINFO_INDEX_AXISBITS_HIGH] |=
+                        (1 << (axisIndex - (AXIS_COUNT_LOW + 1)));
+            }
+            mGameControllerAxisMinArray[axisIndex] = 0.0f;
+            mGameControllerAxisMaxArray[axisIndex] = 1.0f;
+            mGameControllerAxisFlatArray[axisIndex] = 0.0f;
+            mGameControllerAxisFuzzArray[axisIndex] = 0.0f;
+        }
+
     }
 
     private void EnumerateInfoArray(InputDevice inputDevice) {

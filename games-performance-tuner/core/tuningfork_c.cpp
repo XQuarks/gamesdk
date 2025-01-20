@@ -228,10 +228,10 @@ void TUNINGFORK_VERSION_SYMBOL() {
 }
 
 const char *Tuningfork_versionString() {
-    static const char version[] =
-        AGDK_STRING_VERSION(TUNINGFORK_MAJOR_VERSION, TUNINGFORK_MINOR_VERSION,
-                            TUNINGFORK_BUGFIX_VERSION, AGDK_GIT_COMMIT);
-    return version;
+  static const char version[] =
+      AGDK_STRING_VERSION(TUNINGFORK_MAJOR_VERSION, TUNINGFORK_MINOR_VERSION,
+                          TUNINGFORK_BUGFIX_VERSION);
+  return version;
 }
 
 TuningFork_ErrorCode TuningFork_setAggregationStrategyInterval(

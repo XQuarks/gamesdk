@@ -22,7 +22,6 @@ import androidx.core.graphics.Insets;
  * Also a listener for window insets changes.
  */
 public interface Listener {
-
   /*
    * Called when the IME text, selection or composing region has changed.
    *
@@ -53,5 +52,4 @@ public interface Listener {
    * @param action Code of the action. A default action is IME_ACTION_DONE.
    */
   void onEditorAction(int action);
-
 }

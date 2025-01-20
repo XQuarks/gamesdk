@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.memory_advice.hogger"
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 35
         versionCode 17
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
