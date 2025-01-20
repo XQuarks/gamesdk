@@ -21,14 +21,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/prefab-src/modules/game-text-inp
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include/)
 
 set(GAMETEXTINPUT_SRCS
-    ./prefab-src/modules/game-text-input/include/game-text-input/gametextinput.cpp)
+    ./prefab-src/modules/game-text-input/src/game-text-input/gametextinput.cpp)
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Os")
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
 set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -g0")
 
-# We use this empty library to distribute source files in our .aar
-# See the build.gradle file
-add_library(game-text-input STATIC ${CMAKE_CURRENT_SOURCE_DIR}/null.cpp)
+add_library(game-text-input STATIC ${GAMETEXTINPUT_SRCS})
 
 add_library(game-text-input_static STATIC ${GAMETEXTINPUT_SRCS})
 

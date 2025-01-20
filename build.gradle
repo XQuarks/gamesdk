@@ -1012,6 +1012,8 @@ task packageMavenZip(type: Zip) {
 }
 
 task jetpadJson {
+    group 'Help'
+    description 'Generates a file containing library build information serialized to json.'
 
     doFirst {
         // Clear the package and output path to ensure build info is not polluted

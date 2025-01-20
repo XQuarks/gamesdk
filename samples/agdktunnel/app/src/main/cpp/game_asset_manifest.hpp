@@ -18,47 +18,47 @@
 #define agdktunnel_gameassetmanifest_hpp
 
 #include <stddef.h>
+
 #include "game_asset_manager.hpp"
 #include "util.hpp"
 
 namespace GameAssetManifest {
 
-    static const char *MAIN_ASSETPACK_NAME = "install_time_assets";
-    static const char *EXPANSION_ASSETPACK_NAME = "on_demand_assets";
+static const char *MAIN_ASSETPACK_NAME = "install_time_assets";
+static const char *EXPANSION_ASSETPACK_NAME = "on_demand_assets";
 
-    struct AssetPackDefinition {
-        GameAssetManager::GameAssetPackType mPackType;
-        size_t mPackFileCount;
-        const char *mPackName;
-        const char **mPackFiles;
-    };
+struct AssetPackDefinition {
+  GameAssetManager::GameAssetPackType mPackType;
+  size_t mPackFileCount;
+  const char *mPackName;
+  const char **mPackFiles;
+};
 
-    class AssetPackInfo {
-    public:
-        AssetPackInfo(const AssetPackDefinition *definition) :
-                mDefinition(definition),
-                mAssetPackBasePath(NULL),
-                mAssetPackDownloadSize(0),
-                mAssetPackStatus(GameAssetManager::GAMEASSET_NOT_FOUND),
-                mAssetPackCompletion(0.0f) {
-        }
+class AssetPackInfo {
+ public:
+  AssetPackInfo(const AssetPackDefinition *definition)
+      : mDefinition(definition),
+        mAssetPackBasePath(NULL),
+        mAssetPackDownloadSize(0),
+        mAssetPackStatus(GameAssetManager::GAMEASSET_NOT_FOUND),
+        mAssetPackCompletion(0.0f) {}
 
-        ~AssetPackInfo() {
-            if (mAssetPackBasePath != NULL) {
-                delete[] mAssetPackBasePath;
-            }
-        }
+  ~AssetPackInfo() {
+    if (mAssetPackBasePath != NULL) {
+      delete[] mAssetPackBasePath;
+    }
+  }
 
-        const AssetPackDefinition *mDefinition;
-        const char *mAssetPackBasePath;
-        uint64_t mAssetPackDownloadSize;
-        GameAssetManager::GameAssetStatus mAssetPackStatus;
-        float mAssetPackCompletion;
-    };
+  const AssetPackDefinition *mDefinition;
+  const char *mAssetPackBasePath;
+  uint64_t mAssetPackDownloadSize;
+  GameAssetManager::GameAssetStatus mAssetPackStatus;
+  float mAssetPackCompletion;
+};
 
-    size_t AssetManifest_GetAssetPackCount();
+size_t AssetManifest_GetAssetPackCount();
 
-    const AssetPackDefinition *AssetManifest_GetAssetPackDefinitions();
-}
+const AssetPackDefinition *AssetManifest_GetAssetPackDefinitions();
+}  // namespace GameAssetManifest
 
 #endif
