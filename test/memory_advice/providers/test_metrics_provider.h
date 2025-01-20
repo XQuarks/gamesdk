@@ -27,20 +27,12 @@ class TestMetricsProvider : public memory_advice::IMetricsProvider {
   double avail_mem_ = 0;
   double swap_total_ = 0;
   double total_mem_ = 0;
- public:
 
-  void setOomScore(double oom_score) {
-    oom_score_ = oom_score;
-  }
-  void setSwapTotal(double swap_total) {
-    swap_total_ = swap_total;
-  }
-  void setAvailMem(double avail_mem) {
-    avail_mem_ = avail_mem;
-  }
-  void setTotalMem(double total_mem) {
-    total_mem_ = total_mem;
-  }
+ public:
+  void setOomScore(double oom_score) { oom_score_ = oom_score; }
+  void setSwapTotal(double swap_total) { swap_total_ = swap_total; }
+  void setAvailMem(double avail_mem) { avail_mem_ = avail_mem; }
+  void setTotalMem(double total_mem) { total_mem_ = total_mem; }
 
   Json::object GetMeminfoValues() override {
     Json::object metrics_map;
@@ -77,4 +69,4 @@ class TestMetricsProvider : public memory_advice::IMetricsProvider {
   }
 };
 
-} // namespace memory_advice_test
+}  // namespace memory_advice_test

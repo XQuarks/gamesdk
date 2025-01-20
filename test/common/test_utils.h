@@ -37,4 +37,3 @@ bool CheckStrings(const std::string& name, const std::string& result,
                   const std::string& expected);
 
 }  // namespace gamesdk_test
-

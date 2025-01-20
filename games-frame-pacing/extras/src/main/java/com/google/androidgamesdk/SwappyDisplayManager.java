@@ -28,6 +28,7 @@ public class SwappyDisplayManager implements DisplayManager.DisplayListener {
 
     private long mCookie;
     private Activity mActivity;
+    private DisplayManager mDisplayManager;
     private WindowManager mWindowManager;
     private Display.Mode mCurrentMode;
 
@@ -73,6 +74,7 @@ public class SwappyDisplayManager implements DisplayManager.DisplayListener {
 
     }
 
+    // Called from native SwappyDisplayManager.cpp
     public SwappyDisplayManager(long cookie, Activity activity) {
         // Load the native library for cases where an NDK application is running
         // without a java componenet
@@ -92,18 +94,17 @@ public class SwappyDisplayManager implements DisplayManager.DisplayListener {
         mCookie = cookie;
         mActivity = activity;
 
+        mDisplayManager = mActivity.getSystemService(DisplayManager.class);
         mWindowManager = mActivity.getSystemService(WindowManager.class);
         Display display = mWindowManager.getDefaultDisplay();
         mCurrentMode = display.getMode();
         updateSupportedRefreshRates(display);
 
         // Register display listener callbacks
-        DisplayManager dm = mActivity.getSystemService(DisplayManager.class);
-
         synchronized(this) {
             mLooper = new LooperThread();
             mLooper.start();
-            dm.registerDisplayListener(this, mLooper.mHandler);
+            mDisplayManager.registerDisplayListener(this, mLooper.mHandler);
         }
     }
 
@@ -134,6 +135,7 @@ public class SwappyDisplayManager implements DisplayManager.DisplayListener {
         nSetSupportedRefreshPeriods(mCookie, supportedRefreshPeriods, supportedDisplayModeIds);
     }
 
+    // Called from native SwappyDisplayManager.cpp
     public void setPreferredDisplayModeId(final int modeId) {
         mActivity.runOnUiThread(new Runnable() {
             @Override
@@ -151,7 +153,9 @@ public class SwappyDisplayManager implements DisplayManager.DisplayListener {
         });
     }
 
+    // Called from native SwappyDisplayManager.cpp
     public void terminate() {
+        mDisplayManager.unregisterDisplayListener(this);
         mLooper.mHandler.getLooper().quit();
     }
 

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-#define BLURB_ABOUT \
-    "ABOUT THIS GAME\n\n" \
-    "This game is written in C++\n" \
-    "to demonstrate libraries that\n" \
-    "are part of the Android Game\n" \
-    "Development Kit"
+#define BLURB_ABOUT                 \
+  "ABOUT THIS GAME\n\n"             \
+  "This game is written in C++\n"   \
+  "to demonstrate libraries that\n" \
+  "are part of the Android Game\n"  \
+  "Development Kit"
 
-#define BLURB_STORY \
-    "STORY\n\n" \
-    "A messenger from the king rushes\n" \
-    "into the tavern and asks for the\n" \
-    "highest level character. That's\n" \
-    "you so they give you a quest: fly\n" \
-    "to the end of that endless tunnel\n" \
-    "collecting white cubes. At the end\n" \
-    "you will receive cake."
-
+#define BLURB_STORY                      \
+  "STORY\n\n"                            \
+  "A messenger from the king rushes\n"   \
+  "into the tavern and asks for the\n"   \
+  "highest level character. That's\n"    \
+  "you so they give you a quest: fly\n"  \
+  "to the end of that endless tunnel\n"  \
+  "collecting white cubes. At the end\n" \
+  "you will receive cake."

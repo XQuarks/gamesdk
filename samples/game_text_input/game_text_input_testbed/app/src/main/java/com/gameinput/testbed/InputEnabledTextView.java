@@ -15,12 +15,14 @@
  */
 package com.gametextinput.testbed;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_NONE;
+import static android.view.inputmethod.EditorInfo.IME_FLAG_NO_FULLSCREEN;
+
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.util.Log;
-
 import androidx.core.graphics.Insets;
 import com.google.androidgamesdk.gametextinput.GameTextInput;
 import com.google.androidgamesdk.gametextinput.InputConnection;
@@ -28,68 +30,67 @@ import com.google.androidgamesdk.gametextinput.Listener;
 import com.google.androidgamesdk.gametextinput.Settings;
 import com.google.androidgamesdk.gametextinput.State;
 
-import static android.view.inputmethod.EditorInfo.IME_ACTION_NONE;
-import static android.view.inputmethod.EditorInfo.IME_FLAG_NO_FULLSCREEN;
-
 public class InputEnabledTextView extends View implements Listener {
-    private static final String LOG_TAG = "InputEnabledTextView";
+  private static final String LOG_TAG = "InputEnabledTextView";
 
-    public InputConnection mInputConnection;
+  public InputConnection mInputConnection;
 
-    public InputEnabledTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+  public InputEnabledTextView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+  public InputEnabledTextView(Context context) {
+    super(context);
+  }
+
+  public void createInputConnection(int inputType) {
+    EditorInfo editorInfo = new EditorInfo();
+    // Note that if you use TYPE_CLASS_TEXT, the IME may fill the whole window because we
+    // are in landscape and the events aren't reflected back to it, so you can't see what
+    // you're typing. This needs fixing.
+    editorInfo.inputType = inputType;
+    editorInfo.actionId = IME_ACTION_NONE;
+    // IME_FLAG_NO_FULLSCREEN is needed to avoid the IME UI covering the whole display
+    // and presenting an 'Execute' button in landscape mode.
+    editorInfo.imeOptions = IME_FLAG_NO_FULLSCREEN;
+    mInputConnection = new InputConnection(this.getContext(), this, new Settings(editorInfo, true))
+                           .setListener(this);
+  }
+
+  @Override
+  public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+    Log.d(LOG_TAG, "onCreateInputConnection. isActive: "
+        + mInputConnection.getSoftKeyboardActive());
+    if(!mInputConnection.getSoftKeyboardActive()) {
+      return null;
     }
-
-    public InputEnabledTextView(Context context) {
-        super(context);
+    if (outAttrs != null) {
+      GameTextInput.copyEditorInfo(mInputConnection.getEditorInfo(), outAttrs);
     }
+    return mInputConnection;
+  }
 
-    public void createInputConnection(int inputType) {
-        EditorInfo editorInfo = new EditorInfo();
-        // Note that if you use TYPE_CLASS_TEXT, the IME may fill the whole window because we
-        // are in landscape and the events aren't reflected back to it, so you can't see what
-        // you're typing. This needs fixing.
-        editorInfo.inputType = inputType;
-        editorInfo.actionId = IME_ACTION_NONE;
-        // IME_FLAG_NO_FULLSCREEN is needed to avoid the IME UI covering the whole display
-        // and presenting an 'Execute' button in landscape mode.
-        editorInfo.imeOptions = IME_FLAG_NO_FULLSCREEN;
-        mInputConnection = new InputConnection(
-                this.getContext(),
-                this,
-                new Settings(editorInfo, true)
-        ).setListener(this);
-    }
+  // Called when the IME has changed the input
+  @Override
+  public void stateChanged(State newState, boolean dismissed) {
+    Log.d(LOG_TAG, "stateChanged: " + newState + " dismissed: " + dismissed);
+    onTextInputEventNative(newState);
+  }
 
-    @Override
-    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-        if (outAttrs != null) {
-            GameTextInput.copyEditorInfo(mInputConnection.getEditorInfo(), outAttrs);
-        }
-        return mInputConnection;
-    }
+  @Override
+  public void onEditorAction(int action) {
+    Log.d(LOG_TAG, "onEditorAction: " + action);
+  }
 
-    // Called when the IME has changed the input
-    @Override
-    public void stateChanged(State newState, boolean dismissed) {
-        Log.d(LOG_TAG, "stateChanged: " + newState + " dismissed: " + dismissed);
-        onTextInputEventNative(newState);
-    }
+  @Override
+  public void onImeInsetsChanged(Insets insets) {
+    Log.d(LOG_TAG, "insetsChanged: " + insets);
+  }
 
-    @Override
-    public void onEditorAction(int action) {
-        Log.d(LOG_TAG, "onEditorAction: " + action);
-    }
+  @Override
+  public void onSoftwareKeyboardVisibilityChanged(boolean visible) {
+    Log.d(LOG_TAG, "onSoftwareKeyboardVisibilityChanged: " + visible);
+  }
 
-    @Override
-    public void onImeInsetsChanged(Insets insets) {
-        Log.d(LOG_TAG, "insetsChanged: " + insets);
-    }
-
-    @Override
-    public void onSoftwareKeyboardVisibilityChanged(boolean visible) {
-        Log.d(LOG_TAG, "onSoftwareKeyboardVisibilityChanged: " + visible);
-    }
-
-    private native void onTextInputEventNative(State softKeyboardEvent);
+  private native void onTextInputEventNative(State softKeyboardEvent);
 }

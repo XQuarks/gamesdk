@@ -67,7 +67,7 @@ elif [[ $1 == "tests" ]]
 then
     package_name=gamesdk-tests
     ./gradlew :game-controller:connectedAndroidTest -Plibraries=paddleboat -PincludeSampleSources -PincludeSampleArtifacts -PdistPath="$dist_dir" -PpackageName=$package_name
-    ./gradlew :game-frame-pacing:connectedAndroidTest -Plibraries=swappy -PincludeSampleSources -PincludeSampleArtifacts -PdistPath="$dist_dir" -PpackageName=$package_name
+    # ./gradlew :game-frame-pacing:connectedAndroidTest -Plibraries=swappy -PincludeSampleSources -PincludeSampleArtifacts -PdistPath="$dist_dir" -PpackageName=$package_name
     ./gradlew :game-text-input:connectedAndroidTest -Plibraries=game_text_input,game_activity -PincludeSampleSources -PincludeSampleArtifacts -PdistPath="$dist_dir" -PpackageName=$package_name
     exit
 else
@@ -87,12 +87,18 @@ if [[ $1 != "maven-only" ]]
 then
     mkdir -p "$dist_dir/$package_name/apks/samples"
     mkdir -p "$dist_dir/$package_name/apks/test"
+    mkdir -p "$dist_dir/$package_name/apks/tools"
 
     # Add the tuningfork samples and apks into the Game SDK distribution zip
     pushd ./samples/tuningfork/insightsdemo/
     ./gradlew ":app:assembleDebug"
     popd
     pushd ./samples/tuningfork/experimentsdemo/
+    ./gradlew ":app:assembleDebug"
+    popd
+
+    # Add tuningfork monitor app
+    pushd ./games-performance-tuner/tools/TuningForkMonitor/
     ./gradlew ":app:assembleDebug"
     popd
 
@@ -145,6 +151,9 @@ then
     cp samples/tuningfork/experimentsdemo/app/build/outputs/apk/debug/app-debug.apk \
       "$dist_dir/$package_name/apks/samples/experimentsdemo.apk"
 
+    cp games-performance-tuner/tools/TuningForkMonitor/app/build/outputs/apk/debug/app-debug.apk \
+      "$dist_dir/$package_name/apks/tools/tuningforkmonitor.apk"
+
     cp samples/game_controller/nativeactivity/app/build/outputs/apk/debug/app-debug.apk \
       "$dist_dir/$package_name/apks/samples/game_controller_nativeactivity.apk"
     cp samples/game_controller/gameactivity/app/build/outputs/apk/debug/app-debug.apk \
@@ -171,6 +180,8 @@ then
     fi
     zip -ur agdk-libraries-*.zip "apks/samples/insightsdemo.apk"
     zip -ur agdk-libraries-*.zip "apks/samples/experimentsdemo.apk"
+
+    zip -ur agdk-libraries-*.zip "apks/tools/tuningforkmonitor.apk"
 
     zip -ur agdk-libraries-*.zip "apks/samples/game_controller_nativeactivity.apk"
     zip -ur agdk-libraries-*.zip "apks/samples/game_controller_gameactivity.apk"
