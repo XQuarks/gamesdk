@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f26234f9_51d29d82",
+        "filename": "OWNERS",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2025-01-22T16:29:00Z",
+      "side": 1,
+      "message": "Remove Artyom as well as he is no longer in this team.",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "56b0b77f6688b0c11e2019edb483f01591380399",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
