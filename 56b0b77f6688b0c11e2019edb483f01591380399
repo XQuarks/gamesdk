@@ -22,6 +22,30 @@
       },
       "revId": "56b0b77f6688b0c11e2019edb483f01591380399",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12cd0796_152d718f",
+        "filename": "OWNERS",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2025-01-22T16:33:39Z",
+      "side": 1,
+      "message": "Discussed offline.",
+      "parentUuid": "f26234f9_51d29d82",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 19
+      },
+      "revId": "56b0b77f6688b0c11e2019edb483f01591380399",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
