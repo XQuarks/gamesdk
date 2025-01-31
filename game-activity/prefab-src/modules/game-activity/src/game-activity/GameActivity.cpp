@@ -992,7 +992,7 @@ extern "C" int GameActivity_getLocaleScript(char *dst, size_t dst_size,
   }
 
   return copyStringIfFits(dst, dst_size,
-                          gConfiguration.locales[localeIdx].language);
+                          gConfiguration.locales[localeIdx].script);
 }
 
 extern "C" int GameActivity_getLocaleCountry(char *dst, size_t dst_size,
@@ -1005,7 +1005,7 @@ extern "C" int GameActivity_getLocaleCountry(char *dst, size_t dst_size,
   }
 
   return copyStringIfFits(dst, dst_size,
-                          gConfiguration.locales[localeIdx].language);
+                          gConfiguration.locales[localeIdx].country);
 }
 
 extern "C" int GameActivity_getLocaleVariant(char *dst, size_t dst_size,
@@ -1018,7 +1018,7 @@ extern "C" int GameActivity_getLocaleVariant(char *dst, size_t dst_size,
   }
 
   return copyStringIfFits(dst, dst_size,
-                          gConfiguration.locales[localeIdx].language);
+                          gConfiguration.locales[localeIdx].variant);
 }
 
 static bool onTouchEvent_native(JNIEnv *env, jobject javaGameActivity,
