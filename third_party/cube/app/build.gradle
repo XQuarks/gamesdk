@@ -12,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// This file was modified to remove the logic checking if ndk.dir was defined
-// in local.properties or in ANDROID_NDK_HOME. Rely instead on Android Studio
-// and Gradle to warn about issues with NDK.
-
 apply plugin: 'com.android.application'
 
 def stlType = 'c++_static'
