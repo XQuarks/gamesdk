@@ -36,6 +36,8 @@ public class InputEnabledTextView extends View implements Listener {
   public InputConnection mInputConnection;
   private MainActivity mMainActivity;
 
+  private State state = new State("", 0, 0, -1, -1);
+
   public InputEnabledTextView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
@@ -68,6 +70,9 @@ public class InputEnabledTextView extends View implements Listener {
     }
     if (outAttrs != null) {
       GameTextInput.copyEditorInfo(mInputConnection.getEditorInfo(), outAttrs);
+      Log.d(LOG_TAG,
+          "onCreateInputConnection outAttrs = s:" + outAttrs.initialSelStart + "-"
+              + outAttrs.initialSelEnd);
     }
     return mInputConnection;
   }
@@ -75,8 +80,16 @@ public class InputEnabledTextView extends View implements Listener {
   // Called when the IME has changed the input
   @Override
   public void stateChanged(State newState, boolean dismissed) {
-    Log.d(LOG_TAG, "stateChanged: " + newState + " dismissed: " + dismissed);
+    state = newState;
+    Log.d(LOG_TAG,
+        "stateChanged: " + newState.text + " s: " + newState.selectionStart + "-"
+            + newState.selectionEnd + " cr: " + newState.composingRegionStart + "-"
+            + newState.composingRegionEnd);
     onTextInputEvent(newState);
+  }
+
+  public State getState() {
+    return state;
   }
 
   @Override
@@ -95,11 +108,7 @@ public class InputEnabledTextView extends View implements Listener {
   }
 
   private void onTextInputEvent(State state) {
-    mMainActivity.setDisplayedText(state.text);
-  }
-
-  public void enableSoftKeyboard() {
-    mInputConnection.setSoftKeyboardActive(true, 0);
+    mMainActivity.setDisplayedText(state.text, state.selectionStart, state.selectionEnd);
   }
 
   public InputConnection getInputConnection() {

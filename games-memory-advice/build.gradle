@@ -21,12 +21,14 @@ plugins {
 buildDir="../../out_memory_advice"
 
 android {
+    namespace 'com.google.androidgamesdk.memory_advice'
     defaultConfig {
-        minSdkVersion 19
-        compileSdkVersion 31
+        minSdkVersion 21
+        compileSdk 31
         targetSdkVersion 35
         versionCode 1
         versionName "1.1"
+        ndkVersion "23.1.7779620"
 
         consumerProguardFiles "consumer-rules.pro"
         externalNativeBuild {

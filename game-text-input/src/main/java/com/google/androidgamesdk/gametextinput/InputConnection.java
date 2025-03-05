@@ -124,7 +124,7 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    * after calling setEditorInfo.
    */
   public void restartInput() {
-    this.imm.restartInput(targetView);
+    imm.restartInput(targetView);
   }
 
   /**
@@ -153,8 +153,8 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
       this.imm.showSoftInput(this.targetView, flags);
     } else {
       this.imm.hideSoftInputFromWindow(this.targetView.getWindowToken(), flags);
-      imm.restartInput(targetView);
     }
+    restartInput();
   }
 
   /**
@@ -173,7 +173,8 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
    */
   public final void setEditorInfo(EditorInfo editorInfo) {
     Log.d(TAG, "setEditorInfo");
-    this.settings.mEditorInfo = editorInfo;
+    settings.mEditorInfo = editorInfo;
+    fixEditorInfo();
 
     // Depending on the multiline state, we might need a different set of filters.
     // Filters are being used to filter specific characters for hardware keyboards
@@ -201,10 +202,13 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
             + state.selectionEnd + "), composing region=(" + state.composingRegionStart + ","
             + state.composingRegionEnd + ")");
     mEditable.clear();
+    mEditable.clearSpans();
     mEditable.insert(0, (CharSequence) state.text);
     setSelection(state.selectionStart, state.selectionEnd);
-    setComposingRegion(state.composingRegionStart, state.composingRegionEnd);
-    informIMM();
+    if (state.composingRegionStart != state.composingRegionEnd) {
+      setComposingRegion(state.composingRegionStart, state.composingRegionEnd);
+    }
+    restartInput();
   }
 
   /**
@@ -235,7 +239,15 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
       return false;
     }
     // Don't call sendKeyEvent as it might produce an infinite loop.
-    return processKeyEvent(keyEvent);
+    if (processKeyEvent(keyEvent)) {
+      // IMM seems to cache the content of Editable, so we update it with restartInput
+      // Also it caches selection and composing region, so let's notify it about updates.
+      stateUpdated();
+      immUpdateSelection();
+      restartInput();
+      return true;
+    }
+    return false;
   }
 
   // From BaseInputConnection
@@ -263,7 +275,6 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     return super.setComposingText(text, newCursorPosition);
   }
 
-  // From BaseInputConnection
   @Override
   public boolean setComposingRegion(int start, int end) {
     Log.d(TAG, "setComposingRegion: " + start + ":" + end);
@@ -395,14 +406,16 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     return super.performPrivateCommand(action, data);
   }
 
-  private void informIMM() {
+  private void immUpdateSelection() {
     Pair selection = this.getSelection();
     Pair cr = this.getComposingRegion();
     Log.d(TAG,
-        "informIMM: " + selection.first + "," + selection.second + ". " + cr.first + ","
+        "immUpdateSelection: " + selection.first + "," + selection.second + ". " + cr.first + ","
             + cr.second);
-    this.imm.updateSelection(
-        this.targetView, selection.first, selection.second, cr.first, cr.second);
+    settings.mEditorInfo.initialSelStart = selection.first;
+    settings.mEditorInfo.initialSelEnd = selection.second;
+    fixEditorInfo();
+    imm.updateSelection(targetView, selection.first, selection.second, cr.first, cr.second);
   }
 
   private Pair getSelection() {
@@ -417,19 +430,18 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     if (event == null) {
       return false;
     }
-    Log.d(TAG,
-        String.format(
-            "processKeyEvent(key=%d) text=%s", event.getKeyCode(), this.mEditable.toString()));
+    int keyCode = event.getKeyCode();
+    Log.d(
+        TAG, String.format("processKeyEvent(key=%d) text=%s", keyCode, this.mEditable.toString()));
     // Filter out Enter keys if multi-line mode is disabled.
     if ((settings.mEditorInfo.inputType & EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE) == 0
-        && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER
-            || event.getKeyCode() == KeyEvent.KEYCODE_NUMPAD_ENTER)
+        && (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER)
         && event.hasNoModifiers()) {
       sendEditorAction(settings.mEditorInfo.actionId);
       return true;
     }
-    if (event.getAction() != 0) {
-      return true;
+    if (event.getAction() != KeyEvent.ACTION_DOWN) {
+      return false;
     }
     // If no selection is set, move the selection to the end.
     // This is the case when first typing on keys when the selection is not set.
@@ -441,75 +453,83 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
       selection.second = this.mEditable.length();
     }
 
-    boolean modified = false;
-
-    if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT) {
+    if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
       if (selection.first == selection.second) {
-        setSelection(selection.first - 1, selection.second - 1);
+        int newIndex = findIndexBackward(mEditable, selection.first, 1);
+        setSelection(newIndex, newIndex);
       } else {
         setSelection(selection.first, selection.first);
       }
       return true;
-    } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT) {
+    }
+    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
       if (selection.first == selection.second) {
-        setSelection(selection.first + 1, selection.second + 1);
+        int newIndex = findIndexForward(mEditable, selection.second, 1);
+        setSelection(newIndex, newIndex);
       } else {
         setSelection(selection.second, selection.second);
       }
       return true;
-    } else if (selection.first != selection.second) {
-      Log.d(TAG, String.format("processKeyEvent: deleting selection"));
-      this.mEditable.delete(selection.first, selection.second);
-      modified = true;
-    } else if (event.getKeyCode() == KeyEvent.KEYCODE_DEL && selection.first > 0) {
-      this.mEditable.delete(selection.first - 1, selection.first);
-      this.stateUpdated();
-      Log.d(TAG,
-          String.format("processKeyEvent: exit after DEL, text=%s", this.mEditable.toString()));
-      return true;
-    } else if (event.getKeyCode() == KeyEvent.KEYCODE_FORWARD_DEL
-        && selection.first < this.mEditable.length()) {
-      this.mEditable.delete(selection.first, selection.first + 1);
-      this.stateUpdated();
-      Log.d(TAG,
-          String.format(
-              "processKeyEvent: exit after FORWARD_DEL, text=%s", this.mEditable.toString()));
+    }
+    if (keyCode == KeyEvent.KEYCODE_MOVE_HOME) {
+      setSelection(0, 0);
       return true;
     }
-
-    int code = event.getKeyCode();
-    if (event.getUnicodeChar() != 0) {
-      String charsToInsert = Character.toString((char) event.getUnicodeChar());
-      this.mEditable.insert(selection.first, (CharSequence) charsToInsert);
-      int length = this.mEditable.length();
-
-      // Same logic as in setComposingText(): we must update composing region,
-      // so make sure it points to a valid range.
-      Pair composingRegion = this.getComposingRegion();
-      if (composingRegion.first == -1) {
-        composingRegion = this.getSelection();
-        if (composingRegion.first == -1) {
-          composingRegion = new Pair(0, 0);
+    if (keyCode == KeyEvent.KEYCODE_MOVE_END) {
+      setSelection(this.mEditable.length(), this.mEditable.length());
+      return true;
+    }
+    if (keyCode == KeyEvent.KEYCODE_DEL || keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
+      if (selection.first != selection.second) {
+        this.mEditable.delete(selection.first, selection.second);
+        return true;
+      }
+      if (keyCode == KeyEvent.KEYCODE_DEL) {
+        if (selection.first > 0) {
+          finishComposingText();
+          deleteSurroundingTextInCodePoints(1, 0);
+          return true;
         }
       }
-
-      // IMM seems to cache the content of Editable, so we update it with restartInput
-      // Also it caches selection and composing region, so let's notify it about updates.
-      composingRegion.second = composingRegion.first + length;
-      this.setComposingRegion(composingRegion.first, composingRegion.second);
-      int new_cursor = selection.first + charsToInsert.length();
-      setSelection(new_cursor, new_cursor);
-      this.informIMM();
-      this.restartInput();
-      modified = true;
+      if (keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
+        if (selection.first < this.mEditable.length()) {
+          finishComposingText();
+          deleteSurroundingTextInCodePoints(0, 1);
+          return true;
+        }
+      }
+      return false;
     }
 
-    if (modified) {
-      Log.d(TAG, String.format("processKeyEvent: exit, text=%s", this.mEditable.toString()));
-      this.stateUpdated();
+    if (event.getUnicodeChar() == 0) {
+      return false;
     }
 
-    return modified;
+    if (selection.first != selection.second) {
+      Log.d(TAG, String.format("processKeyEvent: deleting selection"));
+      this.mEditable.delete(selection.first, selection.second);
+    }
+
+    String charsToInsert = Character.toString((char) event.getUnicodeChar());
+    this.mEditable.insert(selection.first, (CharSequence) charsToInsert);
+    int length = this.mEditable.length();
+
+    // Same logic as in setComposingText(): we must update composing region,
+    // so make sure it points to a valid range.
+    Pair composingRegion = this.getComposingRegion();
+    if (composingRegion.first == -1) {
+      composingRegion = this.getSelection();
+      if (composingRegion.first == -1) {
+        composingRegion = new Pair(0, 0);
+      }
+    }
+
+    composingRegion.second = composingRegion.first + length;
+    this.setComposingRegion(composingRegion.first, composingRegion.second);
+    int new_cursor = selection.first + charsToInsert.length();
+    setSelection(new_cursor, new_cursor);
+    Log.d(TAG, String.format("processKeyEvent: exit, text=%s", this.mEditable.toString()));
+    return true;
   }
 
   private final void stateUpdated() {
@@ -517,6 +537,9 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     Pair cr = this.getComposingRegion();
     State state = new State(
         this.mEditable.toString(), selection.first, selection.second, cr.first, cr.second);
+    settings.mEditorInfo.initialSelStart = selection.first;
+    settings.mEditorInfo.initialSelEnd = selection.second;
+    fixEditorInfo();
 
     // Keep a reference to the listener to avoid a race condition when setting the listener.
     Listener listener = this.listener;
@@ -583,6 +606,14 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
     return sendEditorAction(action);
   }
 
+  private void fixEditorInfo() {
+    if (settings.mEditorInfo.initialSelStart == -1 && settings.mEditorInfo.initialSelEnd == -1) {
+      // GBoard bug. If it is initialized with -1, -1 it doesn't work with deletion of selection.
+      //      settings.mEditorInfo.initialSelStart = 0;
+      //      settings.mEditorInfo.initialSelEnd = 0;
+    }
+  }
+
   /**
    * Delivers editor action to listener
    *
@@ -596,5 +627,99 @@ public class InputConnection extends BaseInputConnection implements View.OnKeyLi
       return true;
     }
     return false;
+  }
+
+  private static int INVALID_INDEX = -1;
+  // Implementation copy from BaseInputConnection
+  private static int findIndexBackward(
+      final CharSequence cs, final int from, final int numCodePoints) {
+    int currentIndex = from;
+    boolean waitingHighSurrogate = false;
+    final int N = cs.length();
+    if (currentIndex < 0 || N < currentIndex) {
+      return INVALID_INDEX; // The starting point is out of range.
+    }
+    if (numCodePoints < 0) {
+      return INVALID_INDEX; // Basically this should not happen.
+    }
+    int remainingCodePoints = numCodePoints;
+    while (true) {
+      if (remainingCodePoints == 0) {
+        return currentIndex; // Reached to the requested length in code points.
+      }
+
+      --currentIndex;
+      if (currentIndex < 0) {
+        if (waitingHighSurrogate) {
+          return INVALID_INDEX; // An invalid surrogate pair is found.
+        }
+        return 0; // Reached to the beginning of the text w/o any invalid surrogate pair.
+      }
+      final char c = cs.charAt(currentIndex);
+      if (waitingHighSurrogate) {
+        if (!java.lang.Character.isHighSurrogate(c)) {
+          return INVALID_INDEX; // An invalid surrogate pair is found.
+        }
+        waitingHighSurrogate = false;
+        --remainingCodePoints;
+        continue;
+      }
+      if (!java.lang.Character.isSurrogate(c)) {
+        --remainingCodePoints;
+        continue;
+      }
+      if (java.lang.Character.isHighSurrogate(c)) {
+        return INVALID_INDEX; // A invalid surrogate pair is found.
+      }
+      waitingHighSurrogate = true;
+    }
+  }
+
+  // Implementation copy from BaseInputConnection
+  private static int findIndexForward(
+      final CharSequence cs, final int from, final int numCodePoints) {
+    int currentIndex = from;
+    boolean waitingLowSurrogate = false;
+    final int N = cs.length();
+    if (currentIndex < 0 || N < currentIndex) {
+      return INVALID_INDEX; // The starting point is out of range.
+    }
+    if (numCodePoints < 0) {
+      return INVALID_INDEX; // Basically this should not happen.
+    }
+    int remainingCodePoints = numCodePoints;
+
+    while (true) {
+      if (remainingCodePoints == 0) {
+        return currentIndex; // Reached to the requested length in code points.
+      }
+
+      if (currentIndex >= N) {
+        if (waitingLowSurrogate) {
+          return INVALID_INDEX; // An invalid surrogate pair is found.
+        }
+        return N; // Reached to the end of the text w/o any invalid surrogate pair.
+      }
+      final char c = cs.charAt(currentIndex);
+      if (waitingLowSurrogate) {
+        if (!java.lang.Character.isLowSurrogate(c)) {
+          return INVALID_INDEX; // An invalid surrogate pair is found.
+        }
+        --remainingCodePoints;
+        waitingLowSurrogate = false;
+        ++currentIndex;
+        continue;
+      }
+      if (!java.lang.Character.isSurrogate(c)) {
+        --remainingCodePoints;
+        ++currentIndex;
+        continue;
+      }
+      if (java.lang.Character.isLowSurrogate(c)) {
+        return INVALID_INDEX; // A invalid surrogate pair is found.
+      }
+      waitingLowSurrogate = true;
+      ++currentIndex;
+    }
   }
 }

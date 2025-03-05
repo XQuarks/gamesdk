@@ -73,7 +73,10 @@ public class InputEnabledTextView extends View implements Listener {
   // Called when the IME has changed the input
   @Override
   public void stateChanged(State newState, boolean dismissed) {
-    Log.d(LOG_TAG, "stateChanged: " + newState + " dismissed: " + dismissed);
+    Log.d(LOG_TAG, "stateChanged: " + newState.text
+        + ", s: " + newState.selectionStart + "-" + newState.selectionEnd
+        + ", cr: " + newState.composingRegionStart + "-" + newState.composingRegionEnd
+    );
     onTextInputEventNative(newState);
   }
 

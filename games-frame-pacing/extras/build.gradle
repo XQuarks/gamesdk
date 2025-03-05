@@ -4,9 +4,10 @@ apply plugin: 'com.android.application'
 buildDir="./out"
 
 android {
+    namespace 'com.google.androidgamesdk.swappy.extras'
     compileSdkVersion 31
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 35
         versionCode 1
         versionName "1.0"
