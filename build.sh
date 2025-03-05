@@ -32,7 +32,7 @@ if [ "$(uname)" == "Darwin" ]; then
     : # Do nothing but skip the next condition so we don't get a bash warning on macos
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     # Do only for GNU/Linux platform
-    export JAVA_HOME=$(pwd)/../prebuilts/jdk/jdk11/linux-x86
+    export JAVA_HOME=$(pwd)/../prebuilts/jdk/jdk21/linux-x86
 fi
 
 ## Build the Game SDK distribution zip and the zips for Maven AARs
