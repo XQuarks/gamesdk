@@ -24,6 +24,8 @@ def buildTest =  gradle.startParameter.taskNames.join(' ').contains('connectedAn
 buildDir="../../out_paddleboat"
 
 android {
+    ndkVersion "23.1.7779620"
+
     namespace 'com.google.android.games.paddleboat'
     defaultConfig {
         minSdkVersion 19

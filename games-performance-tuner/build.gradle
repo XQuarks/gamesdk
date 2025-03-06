@@ -21,6 +21,8 @@ plugins {
 buildDir="../../out_tuningfork"
 
 android {
+    ndkVersion "23.1.7779620"
+
     defaultConfig {
         minSdkVersion 19
         compileSdkVersion 31

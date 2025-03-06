@@ -12,6 +12,7 @@ set -e # Exit on error
 
 # Set up the environment
 export ANDROID_HOME=$(pwd)/../prebuilts/sdk
+unset  ANDROID_SDK_ROOT
 export ANDROID_NDK_HOME=$(pwd)/../prebuilts/ndk/r23
 export BUILDBOT_SCRIPT=true
 export BUILDBOT_CMAKE=$(pwd)/../prebuilts/cmake/linux-x86
