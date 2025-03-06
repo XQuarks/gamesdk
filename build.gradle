@@ -50,7 +50,6 @@ if (isRunningOnBuildBot) {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
     }
     properties.setProperty('sdk.dir', System.getenv("ANDROID_HOME"))
-    properties.setProperty('ndk.dir', System.getenv("ANDROID_NDK_HOME"))
     properties.setProperty('cmake.dir', System.getenv("BUILDBOT_CMAKE"))
 
     properties.store(project.rootProject.file('local.properties').newDataOutputStream(), '')

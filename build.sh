@@ -12,7 +12,8 @@ set -e # Exit on error
 
 # Set up the environment
 export ANDROID_HOME=$(pwd)/../prebuilts/sdk
-export ANDROID_NDK_HOME=$(pwd)/../prebuilts/ndk/r23
+unset  ANDROID_SDK_ROOT
+export ANDROID_NDK_HOME=$(pwd)/../prebuilts/sdk/ndk/23.1.7779620
 export BUILDBOT_SCRIPT=true
 export BUILDBOT_CMAKE=$(pwd)/../prebuilts/cmake/linux-x86
 export PATH="$PATH:$(pwd)/../prebuilts/ninja/linux-x86/"
@@ -36,7 +37,11 @@ if [ ! -f "$sdkmanager_path" ]; then
         rm cmdline-tools/latest/sdk-tools.zip
     popd
 fi
-echo yes | $sdkmanager_path "platform-tools" "platforms;android-35" "platforms;android-31" "build-tools;35.0.0"
+echo yes | $sdkmanager_path "platform-tools"
+echo yes | $sdkmanager_path "platforms;android-35"
+echo yes | $sdkmanager_path "platforms;android-31"
+echo yes | $sdkmanager_path "build-tools;35.0.0"
+echo yes | $sdkmanager_path "ndk;23.1.7779620"
 
 # cp -Rf samples/sdk_licenses ../prebuilts/sdk/licenses
 
