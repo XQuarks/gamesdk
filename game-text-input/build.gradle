@@ -8,6 +8,7 @@ buildDir="../../out_game_text_input"
 
 android {
     compileSdkVersion 31
+    ndkVersion "23.1.7779620"
 
     defaultConfig {
         minSdkVersion 19
