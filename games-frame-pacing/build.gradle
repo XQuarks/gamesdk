@@ -25,11 +25,11 @@ buildDir="../../out_swappy"
 
 android {
     namespace 'com.google.androidgamesdk.swappy'
-
+    compileSdk 31
+    ndkVersion "23.1.7779620"
 
     defaultConfig {
-        minSdkVersion 19
-        compileSdkVersion 31
+        minSdkVersion 21
         targetSdkVersion 35
         versionCode 1
         versionName "1.1"
@@ -69,8 +69,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildFeatures {

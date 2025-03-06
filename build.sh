@@ -32,7 +32,7 @@ if [ "$(uname)" == "Darwin" ]; then
     : # Do nothing but skip the next condition so we don't get a bash warning on macos
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     # Do only for GNU/Linux platform
-    export JAVA_HOME=$(pwd)/../prebuilts/jdk/jdk11/linux-x86
+    export JAVA_HOME=$(pwd)/../prebuilts/jdk/jdk21/linux-x86
 fi
 
 ## Build the Game SDK distribution zip and the zips for Maven AARs
@@ -82,7 +82,6 @@ else
     ./gradlew packageMavenZip -Plibraries=memory_advice   -PdistPath="$dist_dir" -PpackageName=$package_name
     ./gradlew jetpadJson -Plibraries=swappy,tuningfork,game_activity,game_text_input,paddleboat,memory_advice -PdistPath="$dist_dir" -PpackageName=$package_name
 fi
-
 if [[ $1 != "maven-only" ]]
 then
     mkdir -p "$dist_dir/$package_name/apks/samples"
@@ -93,6 +92,7 @@ then
     pushd ./samples/tuningfork/insightsdemo/
     ./gradlew ":app:assembleDebug"
     popd
+
     pushd ./samples/tuningfork/experimentsdemo/
     ./gradlew ":app:assembleDebug"
     popd
@@ -106,6 +106,7 @@ then
     pushd samples/bouncyball
     ./gradlew ":app:assembleDebug"
     popd
+
     pushd third_party/cube
     ./gradlew ":app:assembleDebug"
     popd
