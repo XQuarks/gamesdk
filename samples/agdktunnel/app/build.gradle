@@ -27,13 +27,14 @@ def usePad = PADEnabled
 def playcoreDir = file('libs/play-core-native-sdk')
 
 android {
-    compileSdkVersion 30
+    namespace 'com.google.sample.agdktunnel'
+    compileSdk 31
     ndkVersion '23.1.7779620'
 
     defaultConfig {
         applicationId 'com.google.sample.agdktunnel'
-        minSdkVersion 24
-        targetSdkVersion 35
+        minSdk          24
+        targetSdk       35
         versionCode     1
         versionName    '1.0.3'
 

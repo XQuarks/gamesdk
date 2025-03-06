@@ -17,7 +17,28 @@ export BUILDBOT_SCRIPT=true
 export BUILDBOT_CMAKE=$(pwd)/../prebuilts/cmake/linux-x86
 export PATH="$PATH:$(pwd)/../prebuilts/ninja/linux-x86/"
 
-cp -Rf samples/sdk_licenses ../prebuilts/sdk/licenses
+if [ "$(uname)" == "Darwin" ]; then
+    : # Do nothing but skip the next condition so we don't get a bash warning on macos
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    # Do only for GNU/Linux platform
+    export JAVA_HOME=$(pwd)/../prebuilts/jdk/jdk17/linux-x86
+fi
+
+sdkmanager_path="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+
+if [ ! -f "$sdkmanager_path" ]; then
+    pushd $ANDROID_HOME
+    mkdir -p cmdline-tools/latest && \
+        curl -o cmdline-tools/latest/sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip && \
+        unzip cmdline-tools/latest/sdk-tools.zip -d cmdline-tools/latest && \
+        mv cmdline-tools/latest/cmdline-tools/* cmdline-tools/latest/ && \
+        rm -rf cmdline-tools/latest/cmdline-tools && \
+        rm cmdline-tools/latest/sdk-tools.zip
+    popd
+fi
+echo yes | $sdkmanager_path "platform-tools" "platforms;android-35" "platforms;android-31" "build-tools;35.0.0"
+
+# cp -Rf samples/sdk_licenses ../prebuilts/sdk/licenses
 
 # Use the distribution path given to the script by the build bot in DIST_DIR. Otherwise,
 # build in the default location.
@@ -26,13 +47,6 @@ then
     dist_dir=$(pwd)/../dist
 else
     dist_dir=$DIST_DIR
-fi
-
-if [ "$(uname)" == "Darwin" ]; then
-    : # Do nothing but skip the next condition so we don't get a bash warning on macos
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    # Do only for GNU/Linux platform
-    export JAVA_HOME=$(pwd)/../prebuilts/jdk/jdk11/linux-x86
 fi
 
 ## Build the Game SDK distribution zip and the zips for Maven AARs
@@ -82,7 +96,6 @@ else
     ./gradlew packageMavenZip -Plibraries=memory_advice   -PdistPath="$dist_dir" -PpackageName=$package_name
     ./gradlew jetpadJson -Plibraries=swappy,tuningfork,game_activity,game_text_input,paddleboat,memory_advice -PdistPath="$dist_dir" -PpackageName=$package_name
 fi
-
 if [[ $1 != "maven-only" ]]
 then
     mkdir -p "$dist_dir/$package_name/apks/samples"
@@ -93,6 +106,7 @@ then
     pushd ./samples/tuningfork/insightsdemo/
     ./gradlew ":app:assembleDebug"
     popd
+
     pushd ./samples/tuningfork/experimentsdemo/
     ./gradlew ":app:assembleDebug"
     popd
@@ -106,6 +120,7 @@ then
     pushd samples/bouncyball
     ./gradlew ":app:assembleDebug"
     popd
+
     pushd third_party/cube
     ./gradlew ":app:assembleDebug"
     popd
