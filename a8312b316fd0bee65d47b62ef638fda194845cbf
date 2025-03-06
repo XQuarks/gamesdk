@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f14c34b_24f1714e",
+        "filename": ".history/game-text-input/src/main/java/com/google/androidgamesdk/gametextinput/GameTextInput_20250228155619.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2025-03-06T13:00:41Z",
+      "side": 1,
+      "message": "Is this included by mistake? Feel free to add .history into gamesdk/.gitignore file to avoid such mistakes later.",
+      "revId": "a8312b316fd0bee65d47b62ef638fda194845cbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e600788_cbcaa448",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2025-03-06T13:00:41Z",
+      "side": 1,
+      "message": "There seem to be a few independent sets of changes in this CL: \n1. updating build files to Gradle 8 \n2. refactoring GameTextInput tests\n3. fixing GameTextInput bug with Unicode and adding new GameTextInput tests\n\nFor the sake of clarity, please consider splitting this into 3 CLs.",
+      "revId": "a8312b316fd0bee65d47b62ef638fda194845cbf",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
