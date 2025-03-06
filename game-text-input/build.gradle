@@ -8,6 +8,9 @@ buildDir="../../out_game_text_input"
 
 android {
     compileSdkVersion 31
+    ndkVersion "21.0.6113669"
+    ndkPath "/usr/local/google/home/mako/projects/android-games-sdk/gamesdk/../prebuilts/ndk/r21"
+
 
     defaultConfig {
         minSdkVersion 19

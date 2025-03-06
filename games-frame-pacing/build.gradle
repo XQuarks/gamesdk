@@ -26,6 +26,8 @@ buildDir="../../out_swappy"
 android {
     namespace 'com.google.androidgamesdk.swappy'
 
+    ndkVersion "21.0.6113669"
+    ndkPath "/usr/local/google/home/mako/projects/android-games-sdk/gamesdk/../prebuilts/ndk/r21"
 
     defaultConfig {
         minSdkVersion 19
