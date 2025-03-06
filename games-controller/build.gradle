@@ -27,6 +27,7 @@ android {
     namespace 'com.google.android.games.paddleboat'
     compileSdk 31
     ndkVersion "23.1.7779620"
+    ndkPath System.getenv("ANDROID_NDK_HOME")
 
     defaultConfig {
         minSdk 21
