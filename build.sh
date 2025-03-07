@@ -38,8 +38,6 @@ if [ ! -f "$sdkmanager_path" ]; then
 fi
 echo yes | $sdkmanager_path "platform-tools" "platforms;android-35" "platforms;android-31" "build-tools;35.0.0"
 
-# cp -Rf samples/sdk_licenses ../prebuilts/sdk/licenses
-
 # Use the distribution path given to the script by the build bot in DIST_DIR. Otherwise,
 # build in the default location.
 if [[ -z $DIST_DIR ]]
@@ -96,6 +94,7 @@ else
     ./gradlew packageMavenZip -Plibraries=memory_advice   -PdistPath="$dist_dir" -PpackageName=$package_name
     ./gradlew jetpadJson -Plibraries=swappy,tuningfork,game_activity,game_text_input,paddleboat,memory_advice -PdistPath="$dist_dir" -PpackageName=$package_name
 fi
+
 if [[ $1 != "maven-only" ]]
 then
     mkdir -p "$dist_dir/$package_name/apks/samples"
@@ -106,7 +105,6 @@ then
     pushd ./samples/tuningfork/insightsdemo/
     ./gradlew ":app:assembleDebug"
     popd
-
     pushd ./samples/tuningfork/experimentsdemo/
     ./gradlew ":app:assembleDebug"
     popd
@@ -120,7 +118,6 @@ then
     pushd samples/bouncyball
     ./gradlew ":app:assembleDebug"
     popd
-
     pushd third_party/cube
     ./gradlew ":app:assembleDebug"
     popd
