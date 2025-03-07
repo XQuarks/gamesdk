@@ -16,6 +16,24 @@
       "message": "Are we confident this is not used, and the removal won\u0027t break somebody?",
       "revId": "1ed01539c0af052243de9b93acbc6420ba8c62dc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "890de982_f1af20ce",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputEnabledTextView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1965785
+      },
+      "writtenOn": "2025-03-07T12:36:05Z",
+      "side": 0,
+      "message": "It\u0027s in androidTest, so it\u0027s officially not a library code and not a part of the public API.",
+      "parentUuid": "17d4f0b3_4eed7f47",
+      "revId": "1ed01539c0af052243de9b93acbc6420ba8c62dc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
