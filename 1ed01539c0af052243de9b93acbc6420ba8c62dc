@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17d4f0b3_4eed7f47",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputEnabledTextView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1533896
+      },
+      "writtenOn": "2025-03-07T12:32:00Z",
+      "side": 0,
+      "message": "Are we confident this is not used, and the removal won\u0027t break somebody?",
+      "revId": "1ed01539c0af052243de9b93acbc6420ba8c62dc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}

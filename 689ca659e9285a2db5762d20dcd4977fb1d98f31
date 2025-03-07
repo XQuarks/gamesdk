@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad920b3_ed3eafab",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1533896
+      },
+      "writtenOn": "2025-03-07T12:32:00Z",
+      "side": 1,
+      "message": "What determines the duration we need to loop for to guarantee that the actions propagate? Can we make these numbers named constants, and perhaps document how they were calculated?\n\nIt\u0027s unfortunate that we need to use sleep and can\u0027t rely on a more declarative way to wait for completion, so let\u0027s capture why it\u0027s the case.",
+      "revId": "689ca659e9285a2db5762d20dcd4977fb1d98f31",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a1bf26c_4c831824",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1533896
+      },
+      "writtenOn": "2025-03-07T12:32:00Z",
+      "side": 1,
+      "message": "Nit: remove?",
+      "range": {
+        "startLine": 408,
+        "startChar": 0,
+        "endLine": 408,
+        "endChar": 46
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e1f54eab_82a1cb31",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputTest.java",
+              "range": {
+                "startLine": 408,
+                "startChar": 0,
+                "endLine": 409,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "689ca659e9285a2db5762d20dcd4977fb1d98f31",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68bdf75a_5ee3772e",
+        "filename": "game-text-input/src/androidTest/res/values/colors.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1533896
+      },
+      "writtenOn": "2025-03-07T12:32:00Z",
+      "side": 1,
+      "message": "Can just delete this file now.",
+      "revId": "689ca659e9285a2db5762d20dcd4977fb1d98f31",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
