@@ -34,6 +34,24 @@
       "parentUuid": "17d4f0b3_4eed7f47",
       "revId": "1ed01539c0af052243de9b93acbc6420ba8c62dc",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70545239_2c948b8b",
+        "filename": "game-text-input/src/androidTest/java/com/google/android/gametextinput/InputEnabledTextView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1533896
+      },
+      "writtenOn": "2025-03-07T12:37:53Z",
+      "side": 0,
+      "message": "Makes sense, thanks!",
+      "parentUuid": "890de982_f1af20ce",
+      "revId": "1ed01539c0af052243de9b93acbc6420ba8c62dc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
