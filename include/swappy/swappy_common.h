@@ -48,7 +48,7 @@
 
 // Internal macros to track Swappy version, do not use directly.
 #define SWAPPY_MAJOR_VERSION 2
-#define SWAPPY_MINOR_VERSION 2
+#define SWAPPY_MINOR_VERSION 3
 #define SWAPPY_BUGFIX_VERSION 0
 #define SWAPPY_PACKED_VERSION                                                \
   ANDROID_GAMESDK_PACKED_VERSION(SWAPPY_MAJOR_VERSION, SWAPPY_MINOR_VERSION, \
