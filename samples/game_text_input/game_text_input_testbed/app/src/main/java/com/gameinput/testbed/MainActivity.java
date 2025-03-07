@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
     SpannableString str = new SpannableString(text);
 
     if (selectionStart != selectionEnd) {
-      Log.e("main", String.format("selection: %d to %d", selectionStart, selectionEnd));
       str.setSpan(new BackgroundColorSpan(Color.YELLOW), selectionStart, selectionEnd, 0);
     }
 
