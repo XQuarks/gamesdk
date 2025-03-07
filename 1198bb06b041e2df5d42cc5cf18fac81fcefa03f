@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc608209_f6a0a962",
+        "filename": "samples/sdk_licenses/android-sdk-license",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1533896
+      },
+      "writtenOn": "2025-03-07T11:12:58Z",
+      "side": 0,
+      "message": "For my future reference, what are these? And the file below.",
+      "revId": "1198bb06b041e2df5d42cc5cf18fac81fcefa03f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
