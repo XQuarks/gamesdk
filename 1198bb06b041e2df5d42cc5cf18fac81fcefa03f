@@ -16,6 +16,24 @@
       "message": "For my future reference, what are these? And the file below.",
       "revId": "1198bb06b041e2df5d42cc5cf18fac81fcefa03f",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d617674_ecefef4b",
+        "filename": "samples/sdk_licenses/android-sdk-license",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2025-03-07T11:49:25Z",
+      "side": 0,
+      "message": "I replaced it with better solution with auto-accepting license using sdk-manager in build.sh",
+      "parentUuid": "bc608209_f6a0a962",
+      "revId": "1198bb06b041e2df5d42cc5cf18fac81fcefa03f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
     }
   ]
 }
