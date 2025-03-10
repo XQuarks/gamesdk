@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32142eb3_1960283b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2025-03-10T14:13:51Z",
+      "side": 1,
+      "message": "Do we need to create a new release for all of them? IIRC we\u0027re no longer doing any development for tuningfork, swappy and memory advice",
+      "revId": "3086d95cdbc3e927a36d9b695f9306e673ea554a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68d5e42e_258d24c1",
@@ -14,6 +31,29 @@
       "writtenOn": "2025-03-10T14:10:25Z",
       "side": 1,
       "message": "Should it still be alpha01 for new version?",
+      "range": {
+        "startLine": 9,
+        "startChar": 73,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "3086d95cdbc3e927a36d9b695f9306e673ea554a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adbfcddc_4d6a0566",
+        "filename": "VERSIONS",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1568678
+      },
+      "writtenOn": "2025-03-10T14:13:51Z",
+      "side": 1,
+      "message": "I believe these should be alpha01 as you\u0027re changing the minor version",
       "range": {
         "startLine": 9,
         "startChar": 73,
