@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68d5e42e_258d24c1",
+        "filename": "VERSIONS",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1872560
+      },
+      "writtenOn": "2025-03-10T14:10:25Z",
+      "side": 1,
+      "message": "Should it still be alpha01 for new version?",
+      "range": {
+        "startLine": 9,
+        "startChar": 73,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "3086d95cdbc3e927a36d9b695f9306e673ea554a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
